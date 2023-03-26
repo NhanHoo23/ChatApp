@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		721602B529CDB0AD0045BBC3 /* AppContraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721602B429CDB0AD0045BBC3 /* AppContraints.swift */; };
+		721602C429D040BB0045BBC3 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 721602BD29D040BB0045BBC3 /* Roboto-Medium.ttf */; };
+		721602C529D040BB0045BBC3 /* Roboto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 721602BE29D040BB0045BBC3 /* Roboto-Light.ttf */; };
+		721602C629D040BB0045BBC3 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 721602BF29D040BB0045BBC3 /* Roboto-Regular.ttf */; };
+		721602C729D040BB0045BBC3 /* Roboto-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 721602C029D040BB0045BBC3 /* Roboto-Italic.ttf */; };
+		721602C829D040BB0045BBC3 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 721602C129D040BB0045BBC3 /* Roboto-Bold.ttf */; };
+		721602C929D040BB0045BBC3 /* Roboto-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 721602C229D040BB0045BBC3 /* Roboto-Thin.ttf */; };
+		721602CA29D040BB0045BBC3 /* Roboto-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 721602C329D040BB0045BBC3 /* Roboto-Black.ttf */; };
 		723EE77029CD873F00BEB75E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723EE76F29CD873F00BEB75E /* AppDelegate.swift */; };
 		723EE77229CD873F00BEB75E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723EE77129CD873F00BEB75E /* SceneDelegate.swift */; };
 		723EE77929CD874100BEB75E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 723EE77829CD874100BEB75E /* Assets.xcassets */; };
@@ -23,6 +31,14 @@
 
 /* Begin PBXFileReference section */
 		52783E722F9F36DD229F6D41 /* Pods_ChatApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChatApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		721602B429CDB0AD0045BBC3 /* AppContraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppContraints.swift; sourceTree = "<group>"; };
+		721602BD29D040BB0045BBC3 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
+		721602BE29D040BB0045BBC3 /* Roboto-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Light.ttf"; sourceTree = "<group>"; };
+		721602BF29D040BB0045BBC3 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
+		721602C029D040BB0045BBC3 /* Roboto-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Italic.ttf"; sourceTree = "<group>"; };
+		721602C129D040BB0045BBC3 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
+		721602C229D040BB0045BBC3 /* Roboto-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Thin.ttf"; sourceTree = "<group>"; };
+		721602C329D040BB0045BBC3 /* Roboto-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Black.ttf"; sourceTree = "<group>"; };
 		723EE76C29CD873F00BEB75E /* ChatApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		723EE76F29CD873F00BEB75E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		723EE77129CD873F00BEB75E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -60,6 +76,46 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		721602B229CDA1720045BBC3 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				72F9557929CD930600A4E8CE /* LoginViewController.swift */,
+				72F9557B29CD931400A4E8CE /* RegisterViewController.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		721602B329CDB0950045BBC3 /* AppContraints */ = {
+			isa = PBXGroup;
+			children = (
+				721602B429CDB0AD0045BBC3 /* AppContraints.swift */,
+			);
+			path = AppContraints;
+			sourceTree = "<group>";
+		};
+		721602BA29D040900045BBC3 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				721602BC29D040BB0045BBC3 /* Fonts */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		721602BC29D040BB0045BBC3 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				721602BD29D040BB0045BBC3 /* Roboto-Medium.ttf */,
+				721602BE29D040BB0045BBC3 /* Roboto-Light.ttf */,
+				721602BF29D040BB0045BBC3 /* Roboto-Regular.ttf */,
+				721602C029D040BB0045BBC3 /* Roboto-Italic.ttf */,
+				721602C129D040BB0045BBC3 /* Roboto-Bold.ttf */,
+				721602C229D040BB0045BBC3 /* Roboto-Thin.ttf */,
+				721602C329D040BB0045BBC3 /* Roboto-Black.ttf */,
+			);
+			name = Fonts;
+			path = ../../../../../../../ATProjects/SecretVault/SPE/SPE/Resources/Fonts;
+			sourceTree = "<group>";
+		};
 		723EE76329CD873F00BEB75E = {
 			isa = PBXGroup;
 			children = (
@@ -82,6 +138,7 @@
 			isa = PBXGroup;
 			children = (
 				723EE78329CD875900BEB75E /* SupportingFiles */,
+				721602B329CDB0950045BBC3 /* AppContraints */,
 				72F9557829CD919500A4E8CE /* ViewModels */,
 				72F9557729CD919000A4E8CE /* Models */,
 				72F9557629CD917600A4E8CE /* Views */,
@@ -93,6 +150,7 @@
 		723EE78329CD875900BEB75E /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
+				721602BA29D040900045BBC3 /* Resource */,
 				723EE76F29CD873F00BEB75E /* AppDelegate.swift */,
 				723EE77129CD873F00BEB75E /* SceneDelegate.swift */,
 				723EE77829CD874100BEB75E /* Assets.xcassets */,
@@ -105,9 +163,8 @@
 		723EE78429CD87C900BEB75E /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				721602B229CDA1720045BBC3 /* Login */,
 				723EE78529CD87F000BEB75E /* ConversationsViewController.swift */,
-				72F9557929CD930600A4E8CE /* LoginViewController.swift */,
-				72F9557B29CD931400A4E8CE /* RegisterViewController.swift */,
 				72F9557D29CD932200A4E8CE /* PhotoViewerViewController.swift */,
 				72F9557F29CD933800A4E8CE /* VideoPlayerViewController.swift */,
 				72F9558129CD936400A4E8CE /* NewConversationViewController.swift */,
@@ -206,8 +263,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				721602C929D040BB0045BBC3 /* Roboto-Thin.ttf in Resources */,
+				721602C829D040BB0045BBC3 /* Roboto-Bold.ttf in Resources */,
 				723EE77C29CD874100BEB75E /* LaunchScreen.storyboard in Resources */,
+				721602C729D040BB0045BBC3 /* Roboto-Italic.ttf in Resources */,
 				723EE77929CD874100BEB75E /* Assets.xcassets in Resources */,
+				721602CA29D040BB0045BBC3 /* Roboto-Black.ttf in Resources */,
+				721602C629D040BB0045BBC3 /* Roboto-Regular.ttf in Resources */,
+				721602C529D040BB0045BBC3 /* Roboto-Light.ttf in Resources */,
+				721602C429D040BB0045BBC3 /* Roboto-Medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -266,6 +330,7 @@
 				723EE77029CD873F00BEB75E /* AppDelegate.swift in Sources */,
 				72F9558029CD933800A4E8CE /* VideoPlayerViewController.swift in Sources */,
 				723EE77229CD873F00BEB75E /* SceneDelegate.swift in Sources */,
+				721602B529CDB0AD0045BBC3 /* AppContraints.swift in Sources */,
 				72F9558429CD937D00A4E8CE /* ProfileViewController.swift in Sources */,
 				723EE78629CD87F100BEB75E /* ConversationsViewController.swift in Sources */,
 				72F9557E29CD932200A4E8CE /* PhotoViewerViewController.swift in Sources */,
@@ -411,6 +476,7 @@
 				DEVELOPMENT_TEAM = A9QHV3NCBJ;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ChatApp/SupportingFiles/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ChatAppSwift;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -439,6 +505,7 @@
 				DEVELOPMENT_TEAM = A9QHV3NCBJ;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ChatApp/SupportingFiles/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ChatAppSwift;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;

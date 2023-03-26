@@ -24,6 +24,18 @@ extension ConversationsViewController {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        let isLoggedIn = UserDefaults.standard.bool(forKey: "logged_in")
+        
+        if !isLoggedIn {
+            let vc = LoginViewController()
+            let nav = UINavigationController(rootViewController: vc)
+            nav.modalPresentationStyle = .fullScreen
+            self.present(nav, animated: false)
+        }
+    }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {return .lightContent}
 }

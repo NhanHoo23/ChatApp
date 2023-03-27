@@ -29,5 +29,9 @@
 		<string>Roboto-Thin.ttf</string>
 		<string>Roboto-Black.ttf</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>Please allow access to take a profile picture</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Please allow access to select photo for your profile</string>
 </dict>
 </plist>

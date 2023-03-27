@@ -148,6 +148,9 @@ extension LoginViewController {
             $0.titleLabel?.font = UIFont(name: FNames.medium, size: 18)
             $0.setTitleColor(.from("C3C4CA"), for: .normal)
             $0.disable(alpha: 1)
+            $0.handle {
+                self.logIn()
+            }
         }
         
         registerBt >>> contentView >>> {
@@ -176,6 +179,8 @@ extension LoginViewController {
     func didTapRegister() {
         emailField.resignFirstResponder()
         passwordField.resignFirstResponder()
+        emailField.text = ""
+        passwordField.text = ""
         
         let vc = RegisterViewController()
         self.navigationController?.pushViewController(vc, animated: true)
@@ -184,6 +189,9 @@ extension LoginViewController {
     func logIn() {
         emailField.resignFirstResponder()
         passwordField.resignFirstResponder()
+        emailField.text = ""
+        passwordField.text = ""
+        
         guard let email = emailField.text, let password = passwordField.text else {
             return
         }
@@ -195,11 +203,12 @@ extension LoginViewController {
     func alertUserLoginError(_ isLogin: Bool) {
         emailField.resignFirstResponder()
         passwordField.resignFirstResponder()
+        
         showLoading(color: .gray, style: .medium)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
             self.hideLoading()
             let title = isLogin ? "Incorrect Password" : "Error"
-            let message = isLogin ? "The Password you entered is incorrect. Please try again." : "The parameter email is required"
+            let message = isLogin ? "The password you entered is incorrect. Please try again." : "The parameter email is required"
             self.showAlert(title: title,message: message, actionTile: "OK", completion: {_ in})
         })
     }

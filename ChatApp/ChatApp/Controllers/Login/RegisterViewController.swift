@@ -13,10 +13,10 @@ class RegisterViewController: UIViewController {
     //Variables
     let imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "person.crop.circle.badge.plus")
+        imageView.image = UIImage(systemName: "person.fill")
         imageView.contentMode = .scaleAspectFit
-        imageView.isUserInteractionEnabled = true
-        imageView.tintColor = .gray
+        imageView.tintColor = .white
+        
         return imageView
     }()
     let firstNameField = UITextField()
@@ -66,21 +66,55 @@ extension RegisterViewController {
             }
         }
         
-        imageView >>> contentView >>> {
+        let avatarView = UIView()
+        avatarView >>> contentView >>> {
             $0.snp.makeConstraints {
                 $0.top.equalToSuperview().offset(Spacing.xl)
                 $0.centerX.equalToSuperview()
                 $0.width.height.equalTo(maxWidth / 3)
             }
+            $0.isUserInteractionEnabled = true
             $0.tapHandle {
-                printDebug("change avatar")
+                self.didTapChangeProifilePic()
             }
+        }
+        
+        imageView >>> avatarView >>> {
+            $0.snp.makeConstraints {
+                $0.edges.equalToSuperview()
+            }
+            $0.backgroundColor = .lightGray
+            $0.layer.cornerRadius = (maxWidth / 3) / 2
+            $0.clipsToBounds = true
+        }
+        
+        let cameraIconView = UIView()
+        cameraIconView >>> avatarView >>> {
+            $0.snp.makeConstraints {
+                $0.trailing.bottom.equalToSuperview()
+                $0.width.height.equalTo(35)
+            }
+            $0.layer.borderColor = UIColor.white.cgColor
+            $0.layer.borderWidth = 3
+            $0.layer.cornerRadius = 35 / 2
+            $0.backgroundColor = .lightGray
+        }
+        
+        let cameraIcon = UIImageView()
+        cameraIcon >>> cameraIconView >>> {
+            $0.snp.makeConstraints {
+                $0.trailing.bottom.equalToSuperview().offset(-Spacing.medium)
+                $0.leading.top.equalToSuperview().offset(Spacing.medium)
+            }
+            $0.tintColor = .black
+            $0.contentMode = .scaleAspectFit
+            $0.image = UIImage(systemName: "camera.fill")
         }
         
         let fieldView = UIView()
         fieldView >>> contentView >>> {
             $0.snp.makeConstraints {
-                $0.top.equalTo(imageView.snp.bottom).offset(Spacing.large)
+                $0.top.equalTo(avatarView.snp.bottom).offset(Spacing.large)
                 $0.centerX.equalToSuperview()
                 $0.width.equalTo(maxWidth * 0.9)
                 $0.height.equalTo(50 * 4 + Spacing.small * 3)
@@ -237,6 +271,10 @@ extension RegisterViewController {
             }
     }
     
+    func didTapChangeProifilePic() {
+        self.presentPhotoActionSheet()
+    }
+    
     func alertUserLoginError(_ isSignUp: Bool) {
         self.firstNameField.resignFirstResponder()
         self.lastNameField.resignFirstResponder()
@@ -250,10 +288,48 @@ extension RegisterViewController {
             self.showAlert(title: "Error", message: message, actionTile: "OK", completion: {_ in})
         })
     }
+    
+    func presentPhotoActionSheet() {
+        let actionSheet = UIAlertController(title: "Profile Picture",
+                                            message: "How would you like to select a picture?",
+                                            preferredStyle: .actionSheet)
+        
+        actionSheet.addAction(UIAlertAction(title: "Cancel",
+                                            style: .cancel,
+                                            handler: nil))
+        actionSheet.addAction(UIAlertAction(title: "Take Photo",
+                                            style: .default,
+                                            handler: {[weak self] _ in
+                                                self?.presentCamera()
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Choose Photo",
+                                            style: .default,
+                                            handler: {[weak self] _ in
+                                                self?.presentPhotoPicker()
+        }))
+        
+        self.present(actionSheet, animated: true)
+    }
+    
+    func presentCamera() {
+        let vc = UIImagePickerController()
+        vc.sourceType = .camera
+        vc.delegate = self
+        vc.allowsEditing = true
+        self.present(vc, animated: true)
+    }
+    
+    func presentPhotoPicker() {
+        let vc = UIImagePickerController()
+        vc.sourceType = .photoLibrary
+        vc.delegate = self
+        vc.allowsEditing = true
+        self.present(vc, animated: true)
+    }
 }
 
 //MARK: Delegate
-extension RegisterViewController: UITextFieldDelegate {
+extension RegisterViewController: UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == firstNameField {
             lastNameField.becomeFirstResponder()
@@ -265,6 +341,17 @@ extension RegisterViewController: UITextFieldDelegate {
             self.didTapSignUp()
         }
         return false
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true)
+        print(info)
+        guard let selectedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else {return}
+        self.imageView.image = selectedImage
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true)
     }
     
 }

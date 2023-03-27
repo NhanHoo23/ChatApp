@@ -137,6 +137,7 @@
 		723EE76E29CD873F00BEB75E /* ChatApp */ = {
 			isa = PBXGroup;
 			children = (
+				7252B32129D0AAE800591C85 /* Extensions */,
 				723EE78329CD875900BEB75E /* SupportingFiles */,
 				721602B329CDB0950045BBC3 /* AppContraints */,
 				72F9557829CD919500A4E8CE /* ViewModels */,
@@ -171,6 +172,13 @@
 				72F9558329CD937D00A4E8CE /* ProfileViewController.swift */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		7252B32129D0AAE800591C85 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		72F9557629CD917600A4E8CE /* Views */ = {

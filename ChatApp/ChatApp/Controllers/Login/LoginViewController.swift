@@ -6,6 +6,7 @@
 //
 
 import MTSDK
+import FirebaseAuth
 
 //MARK: Init and Variables
 class LoginViewController: UIViewController {
@@ -187,17 +188,31 @@ extension LoginViewController {
     }
     
     func logIn() {
+        guard let email = emailField.text, let password = passwordField.text else {
+            return
+        }
+        
+        //firebase login
+        FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password, completion: {[weak self] authResult, error in
+            guard let strongSelf = self else {
+                return
+            }
+            guard let result = authResult, error == nil else {
+                print("Failed to log in user with email: \(email)")
+                strongSelf.alertUserLoginError(true)
+                return
+            }
+            
+            let user = result.user
+            print("User Log In: \(user)")
+            strongSelf.navigationController?.dismiss(animated: true)
+        })
+        
         emailField.resignFirstResponder()
         passwordField.resignFirstResponder()
         emailField.text = ""
         passwordField.text = ""
-        
-        guard let email = emailField.text, let password = passwordField.text else {
-            return
-        }
-        alertUserLoginError(true)
-        
-        //firebase login
+        updateLoginBt(false)
     }
     
     func alertUserLoginError(_ isLogin: Bool) {

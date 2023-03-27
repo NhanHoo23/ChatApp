@@ -6,6 +6,7 @@
 //
 
 import MTSDK
+import FirebaseAuth
 
 //MARK: Init and Variables
 class ConversationsViewController: UIViewController {
@@ -27,14 +28,7 @@ extension ConversationsViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        let isLoggedIn = UserDefaults.standard.bool(forKey: "logged_in")
-        
-        if !isLoggedIn {
-            let vc = LoginViewController()
-            let nav = UINavigationController(rootViewController: vc)
-            nav.modalPresentationStyle = .fullScreen
-            self.present(nav, animated: false)
-        }
+        self.validateAuth()
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {return .lightContent}
@@ -50,5 +44,12 @@ extension ConversationsViewController {
 
 //MARK: Functions
 extension ConversationsViewController {
-
+    func validateAuth() {
+        if FirebaseAuth.Auth.auth().currentUser == nil {
+            let vc = LoginViewController()
+            let nav = UINavigationController(rootViewController: vc)
+            nav.modalPresentationStyle = .fullScreen
+            self.present(nav, animated: false)
+        }
+    }
 }

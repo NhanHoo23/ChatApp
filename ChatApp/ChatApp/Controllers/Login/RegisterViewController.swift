@@ -6,6 +6,7 @@
 //
 
 import MTSDK
+import FirebaseAuth
 
 //MARK: Init and Variables
 class RegisterViewController: UIViewController {
@@ -13,9 +14,9 @@ class RegisterViewController: UIViewController {
     //Variables
     let imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "person.fill")
-        imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = .white
+        imageView.image = UIImage(systemName: "person.circle.fill")
+        imageView.contentMode = .scaleAspectFill
+        imageView.tintColor = .lightGray
         
         return imageView
     }()
@@ -83,7 +84,6 @@ extension RegisterViewController {
             $0.snp.makeConstraints {
                 $0.edges.equalToSuperview()
             }
-            $0.backgroundColor = .lightGray
             $0.layer.cornerRadius = (maxWidth / 3) / 2
             $0.clipsToBounds = true
         }
@@ -259,23 +259,44 @@ extension RegisterViewController {
             !email.isEmpty, !password.isEmpty,
             !firstName.isEmpty,
             !lastName.isEmpty else {
-                alertUserLoginError(true)
+                alertUserLoginError(with: "Please enter all infomation to sign up.")
                 return
             }
         
         guard
             let password = passwordField.text,
             password.count >= 6 else {
-                alertUserLoginError(false)
+                alertUserLoginError(with: "Nhap pass nhieu hon 6 ki tu")
                 return
             }
+        
+        DatabaseManager.shared.userExists(with: email, completion: {[weak self] exits in
+            guard let strongSelf = self else {return}
+            guard !exits else {
+                strongSelf.alertUserLoginError(with: "Look like a user account for that email address already exists.")
+                return
+            }
+            
+            FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password, completion: { authResult, error in
+                
+                guard authResult != nil, error == nil else {
+                    print("Error creating user")
+                    return
+                }
+                
+                DatabaseManager.shared.insertUser(with: ChatAppUser(firstName: firstName, lastName: lastName, emailAddress: email))
+                strongSelf.navigationController?.dismiss(animated: true)
+            })
+        })
+        
+       
     }
     
     func didTapChangeProifilePic() {
         self.presentPhotoActionSheet()
     }
     
-    func alertUserLoginError(_ isSignUp: Bool) {
+    func alertUserLoginError(with message: String) {
         self.firstNameField.resignFirstResponder()
         self.lastNameField.resignFirstResponder()
         self.emailField.resignFirstResponder()
@@ -284,7 +305,6 @@ extension RegisterViewController {
         showLoading(color: .gray, style: .medium)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
             self.hideLoading()
-            let message = isSignUp ? "Please enter all information to sign up" : "Nhap pass nhieu hon 6 ki tu"
             self.showAlert(title: "Error", message: message, actionTile: "OK", completion: {_ in})
         })
     }

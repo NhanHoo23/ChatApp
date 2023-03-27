@@ -20,6 +20,9 @@
 		723EE77929CD874100BEB75E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 723EE77829CD874100BEB75E /* Assets.xcassets */; };
 		723EE77C29CD874100BEB75E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 723EE77A29CD874100BEB75E /* LaunchScreen.storyboard */; };
 		723EE78629CD87F100BEB75E /* ConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723EE78529CD87F000BEB75E /* ConversationsViewController.swift */; };
+		7252B32529D147C900591C85 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7252B32429D147C900591C85 /* GoogleService-Info.plist */; };
+		7252B32929D14A7100591C85 /* NavigationCustom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7252B32829D14A7100591C85 /* NavigationCustom.swift */; };
+		7252B32D29D15CDF00591C85 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7252B32C29D15CDF00591C85 /* DatabaseManager.swift */; };
 		72F9557A29CD930600A4E8CE /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72F9557929CD930600A4E8CE /* LoginViewController.swift */; };
 		72F9557C29CD931400A4E8CE /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72F9557B29CD931400A4E8CE /* RegisterViewController.swift */; };
 		72F9557E29CD932200A4E8CE /* PhotoViewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72F9557D29CD932200A4E8CE /* PhotoViewerViewController.swift */; };
@@ -46,6 +49,9 @@
 		723EE77B29CD874100BEB75E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		723EE77D29CD874100BEB75E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		723EE78529CD87F000BEB75E /* ConversationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsViewController.swift; sourceTree = "<group>"; };
+		7252B32429D147C900591C85 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		7252B32829D14A7100591C85 /* NavigationCustom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationCustom.swift; sourceTree = "<group>"; };
+		7252B32C29D15CDF00591C85 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		72F9557929CD930600A4E8CE /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		72F9557B29CD931400A4E8CE /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		72F9557D29CD932200A4E8CE /* PhotoViewerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewerViewController.swift; sourceTree = "<group>"; };
@@ -137,8 +143,9 @@
 		723EE76E29CD873F00BEB75E /* ChatApp */ = {
 			isa = PBXGroup;
 			children = (
-				7252B32129D0AAE800591C85 /* Extensions */,
 				723EE78329CD875900BEB75E /* SupportingFiles */,
+				7252B32B29D15CCA00591C85 /* Utils */,
+				7252B32129D0AAE800591C85 /* Extensions */,
 				721602B329CDB0950045BBC3 /* AppContraints */,
 				72F9557829CD919500A4E8CE /* ViewModels */,
 				72F9557729CD919000A4E8CE /* Models */,
@@ -157,6 +164,7 @@
 				723EE77829CD874100BEB75E /* Assets.xcassets */,
 				723EE77A29CD874100BEB75E /* LaunchScreen.storyboard */,
 				723EE77D29CD874100BEB75E /* Info.plist */,
+				7252B32429D147C900591C85 /* GoogleService-Info.plist */,
 			);
 			path = SupportingFiles;
 			sourceTree = "<group>";
@@ -164,6 +172,7 @@
 		723EE78429CD87C900BEB75E /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				7252B32A29D15CB600591C85 /* Navigation */,
 				721602B229CDA1720045BBC3 /* Login */,
 				723EE78529CD87F000BEB75E /* ConversationsViewController.swift */,
 				72F9557D29CD932200A4E8CE /* PhotoViewerViewController.swift */,
@@ -179,6 +188,22 @@
 			children = (
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		7252B32A29D15CB600591C85 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				7252B32829D14A7100591C85 /* NavigationCustom.swift */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
+		7252B32B29D15CCA00591C85 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				7252B32C29D15CDF00591C85 /* DatabaseManager.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		72F9557629CD917600A4E8CE /* Views */ = {
@@ -278,6 +303,7 @@
 				723EE77929CD874100BEB75E /* Assets.xcassets in Resources */,
 				721602CA29D040BB0045BBC3 /* Roboto-Black.ttf in Resources */,
 				721602C629D040BB0045BBC3 /* Roboto-Regular.ttf in Resources */,
+				7252B32529D147C900591C85 /* GoogleService-Info.plist in Resources */,
 				721602C529D040BB0045BBC3 /* Roboto-Light.ttf in Resources */,
 				721602C429D040BB0045BBC3 /* Roboto-Medium.ttf in Resources */,
 			);
@@ -332,6 +358,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7252B32929D14A7100591C85 /* NavigationCustom.swift in Sources */,
 				72F9557A29CD930600A4E8CE /* LoginViewController.swift in Sources */,
 				72F9557C29CD931400A4E8CE /* RegisterViewController.swift in Sources */,
 				72F9558229CD936400A4E8CE /* NewConversationViewController.swift in Sources */,
@@ -339,6 +366,7 @@
 				72F9558029CD933800A4E8CE /* VideoPlayerViewController.swift in Sources */,
 				723EE77229CD873F00BEB75E /* SceneDelegate.swift in Sources */,
 				721602B529CDB0AD0045BBC3 /* AppContraints.swift in Sources */,
+				7252B32D29D15CDF00591C85 /* DatabaseManager.swift in Sources */,
 				72F9558429CD937D00A4E8CE /* ProfileViewController.swift in Sources */,
 				723EE78629CD87F100BEB75E /* ConversationsViewController.swift in Sources */,
 				72F9557E29CD932200A4E8CE /* PhotoViewerViewController.swift in Sources */,

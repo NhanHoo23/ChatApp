@@ -229,7 +229,7 @@ extension LoginViewController {
                 $0.leading.equalTo(fieldView.snp.leading)
                 $0.trailing.equalTo(fieldView.snp.trailing)
                 $0.height.equalTo(50)
-                $0.bottom.equalToSuperview()
+                $0.bottom.equalToSuperview().offset(-Spacing.xl)
             }
             $0.layer.masksToBounds = true
             $0.layer.cornerRadius = 15
@@ -258,10 +258,14 @@ extension LoginViewController {
             return
         }
         
+        self.showLoading(color: .gray, style: .medium, containerColor: .lightText, containerRadius: 5)
         //firebase login
         FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password, completion: {[weak self] authResult, error in
             guard let strongSelf = self else {
                 return
+            }
+            DispatchQueue.main.async {
+                strongSelf.hideLoading()
             }
             guard let result = authResult, error == nil else {
                 print("Failed to log in user with email: \(email)")
@@ -326,9 +330,12 @@ extension LoginViewController {
             let credential = GoogleAuthProvider.credential(withIDToken: idToken,
                                                            accessToken: user.accessToken.tokenString)
             
-            
+            self.showLoading(color: .gray, style: .medium, containerColor: .lightText, containerRadius: 5)
             Firebase.Auth.auth().signIn(with: credential, completion: {[weak self] authResult, error in
                 guard let strongSelf = self else {return}
+                DispatchQueue.main.async {
+                    strongSelf.hideLoading()
+                }
                 guard authResult != nil, error == nil else {
                     if let error = error {
                         debugPrint("⭐️ Google creadential login failed, MFA may be needed - \(error)")
@@ -379,8 +386,13 @@ extension LoginViewController {
                 })
                 
                 let credential = FacebookAuthProvider.credential(withAccessToken: token)
+                
+                self.showLoading(color: .gray, style: .medium, containerColor: .lightText, containerRadius: 5)
                 FirebaseAuth.Auth.auth().signIn(with: credential, completion: {[weak self] authResult, error in
                     guard let strongSelf = self else {return}
+                    DispatchQueue.main.async {
+                        strongSelf.hideLoading()
+                    }
                     guard authResult != nil, error == nil else {
                         if let error = error {
                             debugPrint("Facebook creadential login failed, MFA may be needed - \(error)")

@@ -28,7 +28,7 @@ extension ProfileViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {return .lightContent}
@@ -38,6 +38,8 @@ extension ProfileViewController {
 extension ProfileViewController {
     private func setupView() {
         view.backgroundColor = Colors.mainBackgroundColor
+        
+        title = "Profile"
         
         tableView >>> view >>> {
             $0.snp.makeConstraints {

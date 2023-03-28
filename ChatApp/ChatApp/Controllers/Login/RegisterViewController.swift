@@ -277,8 +277,11 @@ extension RegisterViewController {
                 return
             }
             
+            strongSelf.showLoading(color: .gray, style: .medium, containerColor: .lightText, containerRadius: 5)
             FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password, completion: { authResult, error in
-                
+                DispatchQueue.main.async {
+                    strongSelf.hideLoading()
+                }
                 guard authResult != nil, error == nil else {
                     print("Error creating user")
                     return

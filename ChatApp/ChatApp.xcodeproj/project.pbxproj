@@ -30,6 +30,7 @@
 		727D7CF329D2D4A6007DB0B1 /* SocialButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727D7CF229D2D4A6007DB0B1 /* SocialButtonView.swift */; };
 		727D7CF629D2EC08007DB0B1 /* ConversationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727D7CF529D2EC08007DB0B1 /* ConversationTableViewCell.swift */; };
 		727D7CF929D2EF2E007DB0B1 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727D7CF829D2EF2E007DB0B1 /* ChatViewController.swift */; };
+		727D7CFF29D34092007DB0B1 /* TextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727D7CFE29D34092007DB0B1 /* TextFieldView.swift */; };
 		72F9557A29CD930600A4E8CE /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72F9557929CD930600A4E8CE /* LoginViewController.swift */; };
 		72F9557C29CD931400A4E8CE /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72F9557B29CD931400A4E8CE /* RegisterViewController.swift */; };
 		72F9557E29CD932200A4E8CE /* PhotoViewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72F9557D29CD932200A4E8CE /* PhotoViewerViewController.swift */; };
@@ -67,6 +68,7 @@
 		727D7CF229D2D4A6007DB0B1 /* SocialButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialButtonView.swift; sourceTree = "<group>"; };
 		727D7CF529D2EC08007DB0B1 /* ConversationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationTableViewCell.swift; sourceTree = "<group>"; };
 		727D7CF829D2EF2E007DB0B1 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		727D7CFE29D34092007DB0B1 /* TextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldView.swift; sourceTree = "<group>"; };
 		72F9557929CD930600A4E8CE /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		72F9557B29CD931400A4E8CE /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		72F9557D29CD932200A4E8CE /* PhotoViewerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewerViewController.swift; sourceTree = "<group>"; };
@@ -280,6 +282,7 @@
 				727D7CE729D1A33D007DB0B1 /* TabbarItemView.swift */,
 				727D7CE929D1A674007DB0B1 /* TabbarView.swift */,
 				727D7CF229D2D4A6007DB0B1 /* SocialButtonView.swift */,
+				727D7CFE29D34092007DB0B1 /* TextFieldView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -434,6 +437,7 @@
 				72F9557C29CD931400A4E8CE /* RegisterViewController.swift in Sources */,
 				72F9558229CD936400A4E8CE /* NewConversationViewController.swift in Sources */,
 				723EE77029CD873F00BEB75E /* AppDelegate.swift in Sources */,
+				727D7CFF29D34092007DB0B1 /* TextFieldView.swift in Sources */,
 				72F9558029CD933800A4E8CE /* VideoPlayerViewController.swift in Sources */,
 				727D7CE829D1A33D007DB0B1 /* TabbarItemView.swift in Sources */,
 				723EE77229CD873F00BEB75E /* SceneDelegate.swift in Sources */,

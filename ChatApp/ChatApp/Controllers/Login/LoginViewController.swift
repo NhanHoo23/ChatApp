@@ -21,8 +21,8 @@ class LoginViewController: UIViewController {
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
-    let emailField = UITextField()
-    let passwordField = UITextField()
+    let emailField = TextFieldView()
+    let passwordField = TextFieldView()
     let loginBt = UIButton()
     let registerBt = UIButton()
     let fbLoginBt = SocialButtonView(type: .facebook)
@@ -49,7 +49,6 @@ extension LoginViewController {
     private func setupView() {
         title = "Log In"
         view.backgroundColor = Colors.mainBackgroundColor
-        self.hideKeyboardEvent()
         
         let scrollView = UIScrollView()
         scrollView >>> view >>> {
@@ -90,55 +89,24 @@ extension LoginViewController {
             $0.layer.masksToBounds = true
         }
         
-        let emailFieldView = UIView()
-        emailFieldView >>> fieldView >>> {
+        emailField >>> fieldView >>> {
             $0.snp.makeConstraints {
                 $0.top.leading.trailing.equalToSuperview()
                 $0.height.equalTo(50)
             }
-            $0.backgroundColor = Colors.textFieldColor
+            $0.configTextField(placeholder: "Email", returnKeyType: .continue)
+            $0.textField.delegate = self
+            $0.addTarget(self, action: #selector(textFieldDidChanged), type: .editingChanged)
         }
         
-        emailField >>> emailFieldView >>> {
-            $0.snp.makeConstraints {
-                $0.top.bottom.equalToSuperview()
-                $0.leading.equalToSuperview().offset(Spacing.large)
-                $0.trailing.equalToSuperview().offset(-Spacing.large)
-            }
-            $0.delegate = self
-            $0.backgroundColor = Colors.textFieldColor
-            $0.attributedPlaceholder = NSAttributedString(string: "Email", attributes: [NSAttributedString.Key.foregroundColor: Colors.placeHolderColor, NSAttributedString.Key.font: UIFont(name: FNames.bold, size: 16)!])
-            $0.autocorrectionType = .no
-            $0.autocapitalizationType = .none
-            $0.returnKeyType = .continue
-            $0.clearButtonMode = .whileEditing
-            $0.addTarget(self, action: #selector(textFieldDidChanged), for: .editingChanged)
-        }
-        
-        let passwordFieldView = UIView()
-        passwordFieldView >>> fieldView >>> {
+        passwordField >>> fieldView >>> {
             $0.snp.makeConstraints {
                 $0.bottom.leading.trailing.equalToSuperview()
                 $0.height.equalTo(50)
             }
-            $0.backgroundColor = Colors.textFieldColor
-        }
-        
-        passwordField >>> passwordFieldView >>> {
-            $0.snp.makeConstraints {
-                $0.top.bottom.equalToSuperview()
-                $0.leading.equalToSuperview().offset(Spacing.large)
-                $0.trailing.equalToSuperview().offset(-Spacing.large)
-            }
-            $0.delegate = self
-            $0.backgroundColor = Colors.textFieldColor
-            $0.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSAttributedString.Key.foregroundColor: Colors.placeHolderColor, NSAttributedString.Key.font: UIFont(name: FNames.bold, size: 16)!])
-            $0.autocorrectionType = .no
-            $0.autocapitalizationType = .none
-            $0.returnKeyType = .done
-            $0.clearButtonMode = .whileEditing
-            $0.isSecureTextEntry = true
-            $0.addTarget(self, action: #selector(textFieldDidChanged), for: .editingChanged)
+            $0.configTextField(placeholder: "Password", returnKeyType: .done, isSecurity: true)
+            $0.textField.delegate = self
+            $0.addTarget(self, action: #selector(textFieldDidChanged), type: .editingChanged)
         }
         
         loginBt >>> contentView >>> {
@@ -244,20 +212,19 @@ extension LoginViewController {
 //MARK: Functions
 extension LoginViewController {
     func didTapRegister() {
-        emailField.resignFirstResponder()
-        passwordField.resignFirstResponder()
-        emailField.text = ""
-        passwordField.text = ""
+        emailField.hideKeyboard()
+        passwordField.hideKeyboard()
+        emailField.resetText()
+        passwordField.resetText()
         
         let vc = RegisterViewController()
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func logIn() {
-        guard let email = emailField.text, let password = passwordField.text else {
-            return
-        }
-        
+        let email = emailField.getText()
+        let password = passwordField.getText()
+
         self.showLoading(color: .gray, style: .medium, containerColor: .lightText, containerRadius: 5)
         //firebase login
         FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password, completion: {[weak self] authResult, error in
@@ -268,20 +235,17 @@ extension LoginViewController {
                 strongSelf.hideLoading()
             }
             guard let result = authResult, error == nil else {
-                print("Failed to log in user with email: \(email)")
+                debugPrint("⭐️ Failed to log in user with email: \(email)")
                 strongSelf.alertUserLoginError(with: "The password you entered is incorrect. Please try again.")
                 return
             }
-            
             let user = result.user
-            print("User Log In: \(user)")
+            debugPrint("⭐️ User Log In: \(user)")
             strongSelf.navigationController?.dismiss(animated: true)
         })
-        
-        emailField.resignFirstResponder()
-        passwordField.resignFirstResponder()
-        emailField.text = ""
-        passwordField.text = ""
+
+        emailField.hideKeyboard()
+        passwordField.hideKeyboard()
         updateLoginBt(false)
     }
     
@@ -408,19 +372,16 @@ extension LoginViewController {
     }
     
     func alertUserLoginError(with message: String) {
-        emailField.resignFirstResponder()
-        passwordField.resignFirstResponder()
+        emailField.hideKeyboard()
+        passwordField.hideKeyboard()
         
-        showLoading(color: .gray, style: .medium)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-            self.hideLoading()
-            self.showAlert(title: "Error", message: message, actionTile: "OK", completion: {_ in})
-        })
+        self.showAlert(title: "Error", message: message, actionTile: "OK", completion: {_ in})
     }
     
     @objc func textFieldDidChanged() {
-        guard let email = emailField.text, let password = passwordField.text else {return}
-        
+        let email = emailField.getText()
+        let password = passwordField.getText()
+
         if !email.isEmpty && !password.isEmpty {
             updateLoginBt(true)
         } else {
@@ -448,9 +409,10 @@ extension LoginViewController {
 //MARK: Delegate
 extension LoginViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if let text = emailField.text, !text.isEmpty {
-            if textField == emailField {
-                passwordField.becomeFirstResponder()
+        let text = emailField.getText()
+        if !text.isEmpty {
+            if textField == emailField.textField {
+                passwordField.showKeyboard()
             } else {
                 self.logIn()
             }
@@ -459,6 +421,6 @@ extension LoginViewController: UITextFieldDelegate {
         }
         return false
     }
-    
-    
+
+
 }

@@ -67,6 +67,11 @@ extension LoginViewController {
                 $0.edges.equalToSuperview()
                 $0.width.equalToSuperview()
             }
+            $0.isUserInteractionEnabled = true
+            $0.tapHandle {
+                self.emailField.hideKeyboard()
+                self.passwordField.hideKeyboard()
+            }
         }
         
         imageView >>> contentView >>> {

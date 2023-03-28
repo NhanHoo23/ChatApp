@@ -27,6 +27,7 @@
 		727D7CEA29D1A674007DB0B1 /* TabbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727D7CE929D1A674007DB0B1 /* TabbarView.swift */; };
 		727D7CEC29D1AAB6007DB0B1 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727D7CEB29D1AAB6007DB0B1 /* MainViewController.swift */; };
 		727D7CF029D28B70007DB0B1 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727D7CEF29D28B70007DB0B1 /* ProfileTableViewCell.swift */; };
+		727D7CF329D2D4A6007DB0B1 /* SocialButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727D7CF229D2D4A6007DB0B1 /* SocialButtonView.swift */; };
 		72F9557A29CD930600A4E8CE /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72F9557929CD930600A4E8CE /* LoginViewController.swift */; };
 		72F9557C29CD931400A4E8CE /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72F9557B29CD931400A4E8CE /* RegisterViewController.swift */; };
 		72F9557E29CD932200A4E8CE /* PhotoViewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72F9557D29CD932200A4E8CE /* PhotoViewerViewController.swift */; };
@@ -61,6 +62,7 @@
 		727D7CEB29D1AAB6007DB0B1 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		727D7CEF29D28B70007DB0B1 /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
 		727D7CF129D2924F007DB0B1 /* ChatApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ChatApp.entitlements; sourceTree = "<group>"; };
+		727D7CF229D2D4A6007DB0B1 /* SocialButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialButtonView.swift; sourceTree = "<group>"; };
 		72F9557929CD930600A4E8CE /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		72F9557B29CD931400A4E8CE /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		72F9557D29CD932200A4E8CE /* PhotoViewerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewerViewController.swift; sourceTree = "<group>"; };
@@ -239,6 +241,7 @@
 			children = (
 				727D7CE729D1A33D007DB0B1 /* TabbarItemView.swift */,
 				727D7CE929D1A674007DB0B1 /* TabbarView.swift */,
+				727D7CF229D2D4A6007DB0B1 /* SocialButtonView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -400,6 +403,7 @@
 				727D7CF029D28B70007DB0B1 /* ProfileTableViewCell.swift in Sources */,
 				727D7CEC29D1AAB6007DB0B1 /* MainViewController.swift in Sources */,
 				721602B529CDB0AD0045BBC3 /* AppContraints.swift in Sources */,
+				727D7CF329D2D4A6007DB0B1 /* SocialButtonView.swift in Sources */,
 				7252B32D29D15CDF00591C85 /* DatabaseManager.swift in Sources */,
 				72F9558429CD937D00A4E8CE /* ProfileViewController.swift in Sources */,
 				723EE78629CD87F100BEB75E /* ConversationsViewController.swift in Sources */,
@@ -548,6 +552,8 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ChatApp/SupportingFiles/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ChatAppSwift;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow access to take a profile picture";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Please allow access to select photo for your profile";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -578,6 +584,8 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ChatApp/SupportingFiles/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ChatAppSwift;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow access to take a profile picture";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Please allow access to select photo for your profile";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;

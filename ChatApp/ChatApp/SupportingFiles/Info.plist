@@ -2,6 +2,44 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb1359237971311287</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.1063747465209-or2r8esqocpv4ij6j64dmsnmn98r4j46</string>
+			</array>
+		</dict>
+	</array>
+	<key>FacebookAppID</key>
+	<string>1359237971311287</string>
+	<key>FacebookClientToken</key>
+	<string>743088a40bc4c5fcc8293f12799aef4a</string>
+	<key>FacebookDisplayName</key>
+	<string>MyMessenger</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-share-api</string>
+	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Roboto-Medium.ttf</string>
+		<string>Roboto-Light.ttf</string>
+		<string>Roboto-Regular.ttf</string>
+		<string>Roboto-Italic.ttf</string>
+		<string>Roboto-Bold.ttf</string>
+		<string>Roboto-Thin.ttf</string>
+		<string>Roboto-Black.ttf</string>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -19,41 +57,5 @@
 			</array>
 		</dict>
 	</dict>
-	<key>UIAppFonts</key>
-	<array>
-		<string>Roboto-Medium.ttf</string>
-		<string>Roboto-Light.ttf</string>
-		<string>Roboto-Regular.ttf</string>
-		<string>Roboto-Italic.ttf</string>
-		<string>Roboto-Bold.ttf</string>
-		<string>Roboto-Thin.ttf</string>
-		<string>Roboto-Black.ttf</string>
-	</array>
-	<key>NSCameraUsageDescription</key>
-	<string>Please allow access to take a profile picture</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Please allow access to select photo for your profile</string>
-    
-    <key>CFBundleURLTypes</key>
-    <array>
-      <dict>
-      <key>CFBundleURLSchemes</key>
-      <array>
-        <string>fb1359237971311287</string>
-      </array>
-      </dict>
-    </array>
-    <key>FacebookAppID</key>
-    <string>1359237971311287</string>
-    <key>FacebookClientToken</key>
-    <string>743088a40bc4c5fcc8293f12799aef4a</string>
-    <key>FacebookDisplayName</key>
-    <string>MyMessenger</string>
-        
-    <key>LSApplicationQueriesSchemes</key>
-    <array>
-      <string>fbapi</string>
-      <string>fb-messenger-share-api</string>
-    </array>
 </dict>
 </plist>

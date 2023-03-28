@@ -23,6 +23,10 @@
 		7252B32529D147C900591C85 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7252B32429D147C900591C85 /* GoogleService-Info.plist */; };
 		7252B32929D14A7100591C85 /* NavigationCustom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7252B32829D14A7100591C85 /* NavigationCustom.swift */; };
 		7252B32D29D15CDF00591C85 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7252B32C29D15CDF00591C85 /* DatabaseManager.swift */; };
+		727D7CE829D1A33D007DB0B1 /* TabbarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727D7CE729D1A33D007DB0B1 /* TabbarItemView.swift */; };
+		727D7CEA29D1A674007DB0B1 /* TabbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727D7CE929D1A674007DB0B1 /* TabbarView.swift */; };
+		727D7CEC29D1AAB6007DB0B1 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727D7CEB29D1AAB6007DB0B1 /* MainViewController.swift */; };
+		727D7CF029D28B70007DB0B1 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727D7CEF29D28B70007DB0B1 /* ProfileTableViewCell.swift */; };
 		72F9557A29CD930600A4E8CE /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72F9557929CD930600A4E8CE /* LoginViewController.swift */; };
 		72F9557C29CD931400A4E8CE /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72F9557B29CD931400A4E8CE /* RegisterViewController.swift */; };
 		72F9557E29CD932200A4E8CE /* PhotoViewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72F9557D29CD932200A4E8CE /* PhotoViewerViewController.swift */; };
@@ -52,6 +56,11 @@
 		7252B32429D147C900591C85 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7252B32829D14A7100591C85 /* NavigationCustom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationCustom.swift; sourceTree = "<group>"; };
 		7252B32C29D15CDF00591C85 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		727D7CE729D1A33D007DB0B1 /* TabbarItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarItemView.swift; sourceTree = "<group>"; };
+		727D7CE929D1A674007DB0B1 /* TabbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarView.swift; sourceTree = "<group>"; };
+		727D7CEB29D1AAB6007DB0B1 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		727D7CEF29D28B70007DB0B1 /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
+		727D7CF129D2924F007DB0B1 /* ChatApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ChatApp.entitlements; sourceTree = "<group>"; };
 		72F9557929CD930600A4E8CE /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		72F9557B29CD931400A4E8CE /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		72F9557D29CD932200A4E8CE /* PhotoViewerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewerViewController.swift; sourceTree = "<group>"; };
@@ -143,6 +152,7 @@
 		723EE76E29CD873F00BEB75E /* ChatApp */ = {
 			isa = PBXGroup;
 			children = (
+				727D7CF129D2924F007DB0B1 /* ChatApp.entitlements */,
 				723EE78329CD875900BEB75E /* SupportingFiles */,
 				7252B32B29D15CCA00591C85 /* Utils */,
 				7252B32129D0AAE800591C85 /* Extensions */,
@@ -173,12 +183,13 @@
 			isa = PBXGroup;
 			children = (
 				7252B32A29D15CB600591C85 /* Navigation */,
+				727D7CED29D1AABE007DB0B1 /* Main */,
+				727D7CEE29D28B57007DB0B1 /* Profile */,
 				721602B229CDA1720045BBC3 /* Login */,
 				723EE78529CD87F000BEB75E /* ConversationsViewController.swift */,
 				72F9557D29CD932200A4E8CE /* PhotoViewerViewController.swift */,
 				72F9557F29CD933800A4E8CE /* VideoPlayerViewController.swift */,
 				72F9558129CD936400A4E8CE /* NewConversationViewController.swift */,
-				72F9558329CD937D00A4E8CE /* ProfileViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -206,9 +217,28 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
+		727D7CED29D1AABE007DB0B1 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				727D7CEB29D1AAB6007DB0B1 /* MainViewController.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		727D7CEE29D28B57007DB0B1 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				72F9558329CD937D00A4E8CE /* ProfileViewController.swift */,
+				727D7CEF29D28B70007DB0B1 /* ProfileTableViewCell.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
 		72F9557629CD917600A4E8CE /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				727D7CE729D1A33D007DB0B1 /* TabbarItemView.swift */,
+				727D7CE929D1A674007DB0B1 /* TabbarView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -364,7 +394,11 @@
 				72F9558229CD936400A4E8CE /* NewConversationViewController.swift in Sources */,
 				723EE77029CD873F00BEB75E /* AppDelegate.swift in Sources */,
 				72F9558029CD933800A4E8CE /* VideoPlayerViewController.swift in Sources */,
+				727D7CE829D1A33D007DB0B1 /* TabbarItemView.swift in Sources */,
 				723EE77229CD873F00BEB75E /* SceneDelegate.swift in Sources */,
+				727D7CEA29D1A674007DB0B1 /* TabbarView.swift in Sources */,
+				727D7CF029D28B70007DB0B1 /* ProfileTableViewCell.swift in Sources */,
+				727D7CEC29D1AAB6007DB0B1 /* MainViewController.swift in Sources */,
 				721602B529CDB0AD0045BBC3 /* AppContraints.swift in Sources */,
 				7252B32D29D15CDF00591C85 /* DatabaseManager.swift in Sources */,
 				72F9558429CD937D00A4E8CE /* ProfileViewController.swift in Sources */,
@@ -507,6 +541,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ChatApp/ChatApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = A9QHV3NCBJ;
@@ -536,6 +571,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ChatApp/ChatApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = A9QHV3NCBJ;

@@ -25,11 +25,6 @@ extension ConversationsViewController {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        self.validateAuth()
-    }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {return .lightContent}
 }
@@ -44,12 +39,5 @@ extension ConversationsViewController {
 
 //MARK: Functions
 extension ConversationsViewController {
-    func validateAuth() {
-        if FirebaseAuth.Auth.auth().currentUser == nil {
-            let vc = LoginViewController()
-            let nav = UINavigationController(rootViewController: vc)
-            nav.modalPresentationStyle = .fullScreen
-            self.present(nav, animated: false)
-        }
-    }
+    
 }

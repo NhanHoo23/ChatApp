@@ -7,6 +7,7 @@
 
 import MTSDK
 import FirebaseAuth
+import FBSDKLoginKit
 
 //MARK: Init and Variables
 class LoginViewController: UIViewController {
@@ -22,6 +23,7 @@ class LoginViewController: UIViewController {
     let passwordField = UITextField()
     let loginBt = UIButton()
     let registerBt = UIButton()
+    let fbLoginBt = FBLoginButton()
 }
 
 //MARK: Lifecycle
@@ -160,7 +162,6 @@ extension LoginViewController {
                 $0.trailing.equalTo(fieldView.snp.trailing)
                 $0.top.equalTo(loginBt.snp.bottom).offset(Spacing.large)
                 $0.height.equalTo(50)
-                $0.bottom.equalToSuperview()
             }
             $0.backgroundColor = Colors.textFieldColor//.from("0088FE")
             $0.layer.cornerRadius = 15
@@ -170,6 +171,21 @@ extension LoginViewController {
             $0.handle {
                 self.didTapRegister()
             }
+        }
+        
+        fbLoginBt.removeConstraints(fbLoginBt.constraints)
+        fbLoginBt >>> contentView >>> {
+            $0.snp.makeConstraints {
+                $0.leading.equalTo(fieldView.snp.leading)
+                $0.trailing.equalTo(fieldView.snp.trailing)
+                $0.top.equalTo(registerBt.snp.bottom).offset(Spacing.large)
+                $0.height.equalTo(50)
+                $0.bottom.equalToSuperview()
+            }
+            $0.layer.masksToBounds = true
+            $0.layer.cornerRadius = 15
+            $0.delegate = self
+            $0.permissions = ["public_profile", "email"]
         }
     }
 }
@@ -199,7 +215,7 @@ extension LoginViewController {
             }
             guard let result = authResult, error == nil else {
                 print("Failed to log in user with email: \(email)")
-                strongSelf.alertUserLoginError(true)
+                strongSelf.alertUserLoginError(with: "The password you entered is incorrect. Please try again.")
                 return
             }
             
@@ -215,16 +231,14 @@ extension LoginViewController {
         updateLoginBt(false)
     }
     
-    func alertUserLoginError(_ isLogin: Bool) {
+    func alertUserLoginError(with message: String) {
         emailField.resignFirstResponder()
         passwordField.resignFirstResponder()
         
         showLoading(color: .gray, style: .medium)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
             self.hideLoading()
-            let title = isLogin ? "Incorrect Password" : "Error"
-            let message = isLogin ? "The password you entered is incorrect. Please try again." : "The parameter email is required"
-            self.showAlert(title: title,message: message, actionTile: "OK", completion: {_ in})
+            self.showAlert(title: "Error", message: message, actionTile: "OK", completion: {_ in})
         })
     }
     
@@ -256,7 +270,61 @@ extension LoginViewController {
 }
 
 //MARK: Delegate
-extension LoginViewController: UITextFieldDelegate {
+extension LoginViewController: UITextFieldDelegate, LoginButtonDelegate {
+    func loginButton(_ loginButton: FBSDKLoginKit.FBLoginButton, didCompleteWith result: FBSDKLoginKit.LoginManagerLoginResult?, error: Error?) {
+        guard let token = result?.token?.tokenString else {
+            debugPrint("user failed login to fb")
+            return
+        }
+        
+        let facebookRequest = FBSDKLoginKit.GraphRequest(graphPath: "me", parameters: ["fields": "email, name"], tokenString: token, version: nil, httpMethod: .get)
+        facebookRequest.start(completion: {_, result, error in
+            guard let result = result as? [String: Any], error == nil else {
+                debugPrint("Failed to make facebook graph request")
+                return
+            }
+            
+            debugPrint("\(result)")
+            
+            guard
+                let userName = result["name"] as? String,
+                let email = result["email"] as? String else {
+                debugPrint("Failed to get email and name from fb result")
+                return
+            }
+            let nameComponents = userName.components(separatedBy: " ")
+            guard nameComponents.count == 2 else {return}
+            let firstName = nameComponents[0]
+            let lastName = nameComponents[1]
+            
+            DatabaseManager.shared.userExists(with: email, completion: { exists in
+                if !exists {
+                    DatabaseManager.shared.insertUser(with: ChatAppUser(firstName: firstName,
+                                                                        lastName: lastName,
+                                                                        emailAddress: email))
+                }
+            })
+            
+            let credential = FacebookAuthProvider.credential(withAccessToken: token)
+            FirebaseAuth.Auth.auth().signIn(with: credential, completion: {[weak self] authResult, error in
+                guard let strongSelf = self else {return}
+                guard authResult != nil, error == nil else {
+                    debugPrint("Facebook creadential login failed, MFA may be needed - \(error)")
+                    return
+                }
+                
+                debugPrint("Successfully logged user in")
+                strongSelf.navigationController?.dismiss(animated: true)
+            })
+        })
+        
+        
+    }
+    
+    func loginButtonDidLogOut(_ loginButton: FBSDKLoginKit.FBLoginButton) {
+        //no operation
+    }
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let text = emailField.text, !text.isEmpty {
             if textField == emailField {
@@ -265,7 +333,7 @@ extension LoginViewController: UITextFieldDelegate {
                 self.logIn()
             }
         } else {
-            alertUserLoginError(false)
+            alertUserLoginError(with: "The parameter email is required")
         }
         return false
     }

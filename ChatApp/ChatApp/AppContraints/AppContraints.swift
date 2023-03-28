@@ -31,4 +31,5 @@ struct Colors {
     static let textFieldColor: UIColor = .from("F5F5F5")
     static let placeHolderColor: UIColor = .from("7A7A7A")
     static let textColor: UIColor = .black
+    static let tabbarColor: UIColor = .white
 }

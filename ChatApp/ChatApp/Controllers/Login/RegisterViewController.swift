@@ -20,11 +20,11 @@ class RegisterViewController: UIViewController {
         
         return imageView
     }()
-    let firstNameField = UITextField()
-    let lastNameField = UITextField()
-    let emailField = UITextField()
-    let passwordField = UITextField()
-    let signUpBt = UIButton()
+    let firstNameField = TextFieldView()
+    let lastNameField = TextFieldView()
+    let emailField = TextFieldView()
+    let passwordField = TextFieldView()
+    let signUpBt = ButtonView()
 }
 
 //MARK: Lifecycle
@@ -123,103 +123,42 @@ extension RegisterViewController {
             $0.layer.masksToBounds = true
         }
         
-        let firstNameView = UIView()
-        firstNameView >>> fieldView >>> {
+        firstNameField >>> fieldView >>> {
             $0.snp.makeConstraints {
                 $0.top.leading.trailing.equalToSuperview()
                 $0.height.equalTo(50)
             }
-            $0.backgroundColor = Colors.textFieldColor
+            $0.configTextField(placeholder: "First Name", returnKeyType: .continue)
+            $0.textField.delegate = self
         }
-        
-        firstNameField >>> firstNameView >>> {
+
+        lastNameField >>> fieldView >>> {
             $0.snp.makeConstraints {
-                $0.top.bottom.equalToSuperview()
-                $0.leading.equalToSuperview().offset(Spacing.large)
-                $0.trailing.equalToSuperview().offset(-Spacing.large)
-            }
-            $0.delegate = self
-            $0.backgroundColor = Colors.textFieldColor
-            $0.attributedPlaceholder = NSAttributedString(string: "First Name", attributes: [NSAttributedString.Key.foregroundColor: Colors.placeHolderColor, NSAttributedString.Key.font: UIFont(name: FNames.bold, size: 16)!])
-            $0.autocorrectionType = .no
-            $0.autocapitalizationType = .none
-            $0.returnKeyType = .continue
-            $0.clearButtonMode = .whileEditing
-        }
-        
-        let lastNameView = UIView()
-        lastNameView >>> fieldView >>> {
-            $0.snp.makeConstraints {
-                $0.top.equalTo(firstNameView.snp.bottom).offset(Spacing.small)
+                $0.top.equalTo(firstNameField.snp.bottom).offset(Spacing.small)
                 $0.leading.trailing.equalToSuperview()
                 $0.height.equalTo(50)
             }
-            $0.backgroundColor = Colors.textFieldColor
+            $0.configTextField(placeholder: "Last Name", returnKeyType: .continue)
+            $0.textField.delegate = self
         }
-        
-        lastNameField >>> lastNameView >>> {
+
+        emailField >>> fieldView >>> {
             $0.snp.makeConstraints {
-                $0.top.bottom.equalToSuperview()
-                $0.leading.equalToSuperview().offset(Spacing.large)
-                $0.trailing.equalToSuperview().offset(-Spacing.large)
-            }
-            $0.delegate = self
-            $0.backgroundColor = Colors.textFieldColor
-            $0.attributedPlaceholder = NSAttributedString(string: "Last Name", attributes: [NSAttributedString.Key.foregroundColor: Colors.placeHolderColor, NSAttributedString.Key.font: UIFont(name: FNames.bold, size: 16)!])
-            $0.autocorrectionType = .no
-            $0.autocapitalizationType = .none
-            $0.returnKeyType = .continue
-            $0.clearButtonMode = .whileEditing
-        }
-        
-        let emailFieldView = UIView()
-        emailFieldView >>> fieldView >>> {
-            $0.snp.makeConstraints {
-                $0.top.equalTo(lastNameView.snp.bottom).offset(Spacing.small)
+                $0.top.equalTo(lastNameField.snp.bottom).offset(Spacing.small)
                 $0.leading.trailing.equalToSuperview()
                 $0.height.equalTo(50)
             }
-            $0.backgroundColor = Colors.textFieldColor
+            $0.configTextField(placeholder: "Email", returnKeyType: .continue)
+            $0.textField.delegate = self
         }
         
-        emailField >>> emailFieldView >>> {
-            $0.snp.makeConstraints {
-                $0.top.bottom.equalToSuperview()
-                $0.leading.equalToSuperview().offset(Spacing.large)
-                $0.trailing.equalToSuperview().offset(-Spacing.large)
-            }
-            $0.delegate = self
-            $0.backgroundColor = Colors.textFieldColor
-            $0.attributedPlaceholder = NSAttributedString(string: "Email", attributes: [NSAttributedString.Key.foregroundColor: Colors.placeHolderColor, NSAttributedString.Key.font: UIFont(name: FNames.bold, size: 16)!])
-            $0.autocorrectionType = .no
-            $0.autocapitalizationType = .none
-            $0.returnKeyType = .continue
-            $0.clearButtonMode = .whileEditing
-        }
-        
-        let passwordFieldView = UIView()
-        passwordFieldView >>> fieldView >>> {
+        passwordField >>> fieldView >>> {
             $0.snp.makeConstraints {
                 $0.bottom.leading.trailing.equalToSuperview()
                 $0.height.equalTo(50)
             }
-            $0.backgroundColor = Colors.textFieldColor
-        }
-        
-        passwordField >>> passwordFieldView >>> {
-            $0.snp.makeConstraints {
-                $0.top.bottom.equalToSuperview()
-                $0.leading.equalToSuperview().offset(Spacing.large)
-                $0.trailing.equalToSuperview().offset(-Spacing.large)
-            }
-            $0.delegate = self
-            $0.backgroundColor = Colors.textFieldColor
-            $0.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSAttributedString.Key.foregroundColor: Colors.placeHolderColor, NSAttributedString.Key.font: UIFont(name: FNames.bold, size: 16)!])
-            $0.autocorrectionType = .no
-            $0.autocapitalizationType = .none
-            $0.returnKeyType = .done
-            $0.clearButtonMode = .whileEditing
-            $0.isSecureTextEntry = true
+            $0.configTextField(placeholder: "Password", returnKeyType: .continue, isSecurity: true)
+            $0.textField.delegate = self
         }
         
         signUpBt >>> contentView >>> {
@@ -230,12 +169,8 @@ extension RegisterViewController {
                 $0.height.equalTo(50)
                 $0.bottom.equalToSuperview()
             }
-            $0.backgroundColor = .from("0088FE")
-            $0.layer.cornerRadius = 15
-            $0.setTitle("Sign up", for: .normal)
-            $0.titleLabel?.font = UIFont(name: FNames.medium, size: 18)
-            $0.setTitleColor(.white, for: .normal)
-            $0.handle {
+            $0.configButton(type: .signUp, backgroundColor: .from("0088FE"), title: ButtonType.signUp.title, titleColor: .white)
+            $0.tapHandle {
                 self.didTapSignUp()
             }
         }
@@ -246,29 +181,28 @@ extension RegisterViewController {
 //MARK: Functions
 extension RegisterViewController {
     @objc func didTapSignUp() {
-        self.firstNameField.resignFirstResponder()
-        self.lastNameField.resignFirstResponder()
-        self.emailField.resignFirstResponder()
-        self.passwordField.resignFirstResponder()
+        self.firstNameField.hideKeyboard()
+        self.lastNameField.hideKeyboard()
+        self.emailField.hideKeyboard()
+        self.passwordField.hideKeyboard()
         
-        guard
-            let firstName = firstNameField.text,
-            let lastName = lastNameField.text,
-            let email = emailField.text,
-            let password = passwordField.text,
-            !email.isEmpty, !password.isEmpty,
-            !firstName.isEmpty,
-            !lastName.isEmpty else {
-                alertUserLoginError(with: "Please enter all infomation to sign up.")
-                return
-            }
+        let firstName = firstNameField.getText()
+        let lastName = lastNameField.getText()
+        let email = emailField.getText()
+        let password = passwordField.getText()
         
-        guard
-            let password = passwordField.text,
-            password.count >= 6 else {
-                alertUserLoginError(with: "Nhap pass nhieu hon 6 ki tu")
-                return
-            }
+        if email.isEmpty,
+           password.isEmpty,
+           firstName.isEmpty,
+           lastName.isEmpty {
+            alertUserLoginError(with: "Please enter all infomation to sign up.")
+            return
+        }
+
+        if password.count < 6 {
+            alertUserLoginError(with: "Nhap pass nhieu hon 6 ki tu")
+            return
+        }
         
         DatabaseManager.shared.userExists(with: email, completion: {[weak self] exits in
             guard let strongSelf = self else {return}
@@ -287,7 +221,28 @@ extension RegisterViewController {
                     return
                 }
                 
-                DatabaseManager.shared.insertUser(with: ChatAppUser(firstName: firstName, lastName: lastName, emailAddress: email))
+                let chatUser = ChatAppUser(firstName: firstName,
+                                           lastName: lastName,
+                                           emailAddress: email)
+                DatabaseManager.shared.insertUser(with: chatUser, completion: {success in
+                    if success {
+                        //upload image
+                        guard let image = strongSelf.imageView.image, let data = image.pngData() else {
+                            return
+                        }
+                        
+                        let fileName = chatUser.prfilePictureFileName
+                        StorageManager.shared.uploadProfilePicture(with: data, fileName: fileName, completion: {result in
+                            switch result {
+                            case .success(let downloadUrl):
+                                UserDefaults.standard.set(downloadUrl, forKey: "profile_picture_url")
+                                print("⭐️ DownloadUrl: \(downloadUrl)")
+                            case .failure(let error):
+                                print("⭐️ Error: \(error)")
+                            }
+                        })
+                    }
+                })
                 strongSelf.navigationController?.dismiss(animated: true)
             })
         })
@@ -300,11 +255,6 @@ extension RegisterViewController {
     }
     
     func alertUserLoginError(with message: String) {
-        self.firstNameField.resignFirstResponder()
-        self.lastNameField.resignFirstResponder()
-        self.emailField.resignFirstResponder()
-        self.passwordField.resignFirstResponder()
-        
         showLoading(color: .gray, style: .medium)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
             self.hideLoading()
@@ -354,12 +304,12 @@ extension RegisterViewController {
 //MARK: Delegate
 extension RegisterViewController: UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == firstNameField {
-            lastNameField.becomeFirstResponder()
-        } else if textField == lastNameField {
-            emailField.becomeFirstResponder()
-        } else if textField == emailField {
-            passwordField.becomeFirstResponder()
+        if textField == firstNameField.textField {
+            lastNameField.showKeyboard()
+        } else if textField == lastNameField.textField {
+            emailField.showKeyboard()
+        } else if textField == emailField.textField {
+            passwordField.showKeyboard()
         } else {
             self.didTapSignUp()
         }

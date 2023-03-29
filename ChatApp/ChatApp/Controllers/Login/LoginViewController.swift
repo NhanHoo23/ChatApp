@@ -23,8 +23,10 @@ class LoginViewController: UIViewController {
     }()
     let emailField = TextFieldView()
     let passwordField = TextFieldView()
-    let loginBt = UIButton()
-    let registerBt = UIButton()
+//    let loginBt = UIButton()
+//    let registerBt = UIButton()
+    let loginBt = ButtonView()
+    let registerBt = ButtonView()
     let fbLoginBt = SocialButtonView(type: .facebook)
     let ggLoginBt = SocialButtonView(type: .google)
 }
@@ -121,13 +123,8 @@ extension LoginViewController {
                 $0.top.equalTo(fieldView.snp.bottom).offset(Spacing.xl)
                 $0.height.equalTo(50)
             }
-            $0.backgroundColor = Colors.textFieldColor
-            $0.layer.cornerRadius = 15
-            $0.setTitle("Log in", for: .normal)
-            $0.titleLabel?.font = UIFont(name: FNames.medium, size: 18)
-            $0.setTitleColor(.from("C3C4CA"), for: .normal)
-            $0.disable(alpha: 1)
-            $0.handle {
+            $0.configButton(type: .login, title: ButtonType.login.title, titleColor: .from("C3C4CA"))
+            $0.tapHandle {
                 self.logIn()
             }
         }
@@ -139,12 +136,8 @@ extension LoginViewController {
                 $0.top.equalTo(loginBt.snp.bottom).offset(Spacing.large)
                 $0.height.equalTo(50)
             }
-            $0.backgroundColor = Colors.textFieldColor
-            $0.layer.cornerRadius = 15
-            $0.setTitle("Create new account", for: .normal)
-            $0.titleLabel?.font = UIFont(name: FNames.medium, size: 18)
-            $0.setTitleColor(Colors.textColor, for: .normal)
-            $0.handle {
+            $0.configButton(type: .createNewAccount, title: ButtonType.createNewAccount.title, titleColor: Colors.textColor)
+            $0.tapHandle {
                 self.didTapRegister()
             }
         }
@@ -240,18 +233,18 @@ extension LoginViewController {
                 strongSelf.hideLoading()
             }
             guard let result = authResult, error == nil else {
-                debugPrint("⭐️ Failed to log in user with email: \(email)")
+                print("⭐️ Failed to log in user with email: \(email)")
                 strongSelf.alertUserLoginError(with: "The password you entered is incorrect. Please try again.")
                 return
             }
             let user = result.user
-            debugPrint("⭐️ User Log In: \(user)")
+            print("⭐️ User Log In: \(user)")
             strongSelf.navigationController?.dismiss(animated: true)
         })
 
         emailField.hideKeyboard()
         passwordField.hideKeyboard()
-        updateLoginBt(false)
+        self.loginBt.updateButtonState(false)
     }
     
     func signInWithGoogle() {
@@ -265,7 +258,7 @@ extension LoginViewController {
         GIDSignIn.sharedInstance.signIn(withPresenting: self) {result, error in
             guard error == nil else {
                 if let error = error {
-                    debugPrint("Failed to sign in with google: \(error)")
+                    print("⭐️ Failed to sign in with google: \(error)")
                 }
                 return
             }
@@ -276,7 +269,7 @@ extension LoginViewController {
                 return
             }
             
-            debugPrint("⭐️ Did sign in with Google: \(user)")
+            print("⭐️ Did sign in with Google: \(user)")
             
             guard
                 let email = user.profile?.email,
@@ -286,13 +279,40 @@ extension LoginViewController {
                 return
             }
             
-            debugPrint("⭐️ email: \(email), firstName: \(firstName), lastName: \(lastName)")
+            print("⭐️ email: \(email), firstName: \(firstName), lastName: \(lastName)")
             
             DatabaseManager.shared.userExists(with: email, completion: { exists in
                 if !exists {
-                    DatabaseManager.shared.insertUser(with: ChatAppUser(firstName: firstName,
-                                                                        lastName: lastName,
-                                                                        emailAddress: email))
+                    let chatUser = ChatAppUser(firstName: firstName,
+                                               lastName: lastName,
+                                               emailAddress: email)
+                    DatabaseManager.shared.insertUser(with: chatUser, completion: {success in
+                        if success {
+                            //upload image
+                            if let hasImage = user.profile?.hasImage, hasImage {
+                                guard let url = user.profile?.imageURL(withDimension: 200) else {
+                                    return
+                                }
+                                
+                                URLSession.shared.dataTask(with: url, completionHandler: {data, _, _ in
+                                    guard let data = data else {
+                                        return
+                                    }
+                                    
+                                    let fileName = chatUser.prfilePictureFileName
+                                    StorageManager.shared.uploadProfilePicture(with: data, fileName: fileName, completion: {result in
+                                        switch result {
+                                        case .success(let downloadUrl):
+                                            UserDefaults.standard.set(downloadUrl, forKey: "profile_picture_url")
+                                            print("⭐️ DownloadUrl: \(downloadUrl)")
+                                        case .failure(let error):
+                                            print("⭐️ Error: \(error)")
+                                        }
+                                    })
+                                }).resume()
+                            }
+                        }
+                    })
                 }
             })
             
@@ -307,12 +327,12 @@ extension LoginViewController {
                 }
                 guard authResult != nil, error == nil else {
                     if let error = error {
-                        debugPrint("⭐️ Google creadential login failed, MFA may be needed - \(error)")
+                        print("⭐️ Google creadential login failed, MFA may be needed - \(error)")
                     }
                     return
                 }
                 
-                debugPrint("⭐️ Successfully logged user in")
+                print("⭐️ Successfully logged user in")
                 strongSelf.navigationController?.dismiss(animated: true)
             })
         }
@@ -322,35 +342,64 @@ extension LoginViewController {
         let fbLoginManager = LoginManager()
         fbLoginManager.logIn(permissions: ["public_profile", "email"], from: self, handler: {result, error in
             guard let token = result?.token?.tokenString else {
-                debugPrint("User failed login to fb")
+                print("⭐️ User failed login to fb")
                 return
             }
             
-            let facebookRequest = FBSDKLoginKit.GraphRequest(graphPath: "me", parameters: ["fields": "email, name"], tokenString: token, version: nil, httpMethod: .get)
+            let facebookRequest = FBSDKLoginKit.GraphRequest(graphPath: "me",
+                                                             parameters: ["fields": "email, first_name, last_name, picture.type(large)"],
+                                                             tokenString: token,
+                                                             version: nil,
+                                                             httpMethod: .get)
             facebookRequest.start(completion: {_, result, error in
                 guard let result = result as? [String: Any], error == nil else {
-                    debugPrint("Failed to make facebook graph request")
+                    print("⭐️ Failed to make facebook graph request")
                     return
                 }
                 
-                debugPrint("⭐️ Result: \(result)")
+                print("⭐️ Result: \(result)")
                 
                 guard
-                    let userName = result["name"] as? String,
-                    let email = result["email"] as? String else {
-                    debugPrint("Failed to get email and name from fb result")
-                    return
+                    let firstName = result["first_name"] as? String,
+                    let lastName = result["last_name"] as? String,
+                    let email = result["email"] as? String,
+                    let picture = result["picture"] as? [String: Any],
+                    let data = picture["data"] as? [String: Any],
+                    let pictureUrl = data["url"] as? String else {
+                        print("⭐️ Failed to get email and name from fb result")
+                        return
                 }
-                let nameComponents = userName.components(separatedBy: " ")
-                guard nameComponents.count == 2 else {return}
-                let firstName = nameComponents[0]
-                let lastName = nameComponents[1]
                 
                 DatabaseManager.shared.userExists(with: email, completion: { exists in
                     if !exists {
-                        DatabaseManager.shared.insertUser(with: ChatAppUser(firstName: firstName,
-                                                                            lastName: lastName,
-                                                                            emailAddress: email))
+                        let chatUser = ChatAppUser(firstName: firstName,
+                                                   lastName: lastName,
+                                                   emailAddress: email)
+                        DatabaseManager.shared.insertUser(with: chatUser, completion: {success in
+                            if success {
+                                guard let url = URL(string: pictureUrl) else {return}
+                                URLSession.shared.dataTask(with: url, completionHandler: {data, _, error in
+                                    guard let data = data else {
+                                        print("⭐️ Failed to get data from facebook")
+                                        return
+                                    }
+                                    
+                                    print("⭐️ Got data from FB, uploading...")
+                                    
+                                    //upload image
+                                    let fileName = chatUser.prfilePictureFileName
+                                    StorageManager.shared.uploadProfilePicture(with: data, fileName: fileName, completion: {result in
+                                        switch result {
+                                        case .success(let downloadUrl):
+                                            UserDefaults.standard.set(downloadUrl, forKey: "profile_picture_url")
+                                            print("⭐️ DownloadUrl: \(downloadUrl)")
+                                        case .failure(let error):
+                                            print("⭐️ Error: \(error)")
+                                        }
+                                    })
+                                }).resume()
+                            }
+                        })
                     }
                 })
                 
@@ -364,12 +413,12 @@ extension LoginViewController {
                     }
                     guard authResult != nil, error == nil else {
                         if let error = error {
-                            debugPrint("Facebook creadential login failed, MFA may be needed - \(error)")
+                            print("⭐️ Facebook creadential login failed, MFA may be needed - \(error)")
                         }
                         return
                     }
                     
-                    debugPrint("⭐️ Successfully logged user in")
+                    print("⭐️ Successfully logged user in")
                     strongSelf.navigationController?.dismiss(animated: true)
                 })
             })
@@ -388,25 +437,9 @@ extension LoginViewController {
         let password = passwordField.getText()
 
         if !email.isEmpty && !password.isEmpty {
-            updateLoginBt(true)
+            self.loginBt.updateButtonState(true)
         } else {
-            updateLoginBt(false)
-        }
-    }
-    
-    func updateLoginBt(_ bool: Bool) {
-        if bool {
-            UIView.animate(withDuration: 0.3, animations: {
-                self.loginBt.enable()
-                self.loginBt.backgroundColor = .from("0088FE")
-                self.loginBt.setTitleColor(.white, for: .normal)
-            })
-        } else {
-            UIView.animate(withDuration: 0.3, animations: {
-                self.loginBt.disable(alpha: 1)
-                self.loginBt.backgroundColor = Colors.textFieldColor
-                self.loginBt.setTitleColor(.from("C3C4CA"), for: .normal)
-            })
+            self.loginBt.updateButtonState(false)
         }
     }
 }

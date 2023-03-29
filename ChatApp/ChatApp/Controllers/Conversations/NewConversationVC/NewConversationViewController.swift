@@ -42,6 +42,14 @@ extension NewConversationViewController {
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done
                                                             , target: self, action: #selector(dismissSelf))
+        
+        tableView >>> view >>> {
+            $0.snp.makeConstraints {
+                $0.edges.equalToSuperview()
+            }
+            $0.isHidden = true
+            $0.registerReusedCell(UserTableViewCell.self)
+        }
     }
 }
 

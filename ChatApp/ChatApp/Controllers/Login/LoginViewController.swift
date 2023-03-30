@@ -238,6 +238,9 @@ extension LoginViewController {
                 return
             }
             let user = result.user
+            
+            UserDefaults.standard.set(email, forKey: "email")
+            
             print("⭐️ User Log In: \(user)")
             strongSelf.navigationController?.dismiss(animated: true)
         })
@@ -280,6 +283,7 @@ extension LoginViewController {
             }
             
             print("⭐️ email: \(email), firstName: \(firstName), lastName: \(lastName)")
+            UserDefaults.standard.set(email, forKey: "email")
             
             DatabaseManager.shared.userExists(with: email, completion: { exists in
                 if !exists {
@@ -369,6 +373,8 @@ extension LoginViewController {
                         print("⭐️ Failed to get email and name from fb result")
                         return
                 }
+                
+                UserDefaults.standard.set(email, forKey: "email")
                 
                 DatabaseManager.shared.userExists(with: email, completion: { exists in
                     if !exists {

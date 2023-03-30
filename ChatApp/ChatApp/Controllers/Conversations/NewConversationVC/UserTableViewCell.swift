@@ -12,15 +12,17 @@ class UserTableViewCell: UITableViewCell {
     
     //Variables
     var containerView: UIView!
+    let nameLb = UILabel()
 }
 
 
 //MARK: Functions
 extension UserTableViewCell {
-    func configsCell() {
+    func configsCell(user: [String: String]) {
         if containerView == nil {
             self.setupView()
         }
+        self.nameLb.text = user["name"]
     }
     
     private func setupView() {
@@ -34,6 +36,13 @@ extension UserTableViewCell {
             }
             $0.backgroundColor = .clear
         }
+        
+        nameLb >>> containerView >>> {
+            $0.snp.makeConstraints {
+                $0.center.equalToSuperview()
+            }
+        }
+
     }
 
 }

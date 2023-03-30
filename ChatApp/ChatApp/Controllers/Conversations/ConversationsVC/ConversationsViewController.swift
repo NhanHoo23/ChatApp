@@ -8,6 +8,20 @@
 import MTSDK
 import FirebaseAuth
 
+struct Conversation {
+    let id: String
+    let name: String
+    let otherUserEmail: String
+    let latestMessage: LatestMessage
+}
+
+struct LatestMessage {
+    let date: String
+    let text: String
+    let isRead: Bool
+}
+
+
 //MARK: Init and Variables
 class ConversationsViewController: UIViewController {
 
@@ -17,6 +31,8 @@ class ConversationsViewController: UIViewController {
     let tableView = UITableView()
     let noConversationsLb = UILabel()
     
+    var conversations = [Conversation]()
+    
 }
 
 //MARK: Lifecycle
@@ -25,6 +41,7 @@ extension ConversationsViewController {
         super.viewDidLoad()
         setupView()
         fetchConversations()
+        startListeningForConversations()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -103,6 +120,31 @@ extension ConversationsViewController {
         self.tableView.isHidden = false
     }
     
+    func startListeningForConversations() {
+        guard let email = UserDefaults.standard.value(forKey: "email") as? String else {
+            return
+        }
+        print("⭐️ Starting conversation fetch: \(email)")
+        let safeEmail = DatabaseManager.safeEmail(emailAddress: email)
+        DatabaseManager.shared.getAllConversations(for: safeEmail, completion: {[weak self] result in
+            switch result {
+            case .success(let conversations):
+                print("⭐️ successfully got conversation models")
+                guard !conversations.isEmpty else {
+                    return
+                }
+                
+                self?.conversations = conversations
+                
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
+                }
+            case .failure(let error):
+                print("⭐️ failed to get convo: \(error)")
+            }
+        })
+    }
+    
     @objc func didTapComposeButton() {
         let vc = NewConversationViewController()
         let navVC = UINavigationController(rootViewController: vc)
@@ -120,7 +162,7 @@ extension ConversationsViewController {
             return
         }
 
-        let vc = ChatViewController(email: email)
+        let vc = ChatViewController(email: email, id: nil)
         vc.isNewConversation = true
         vc.title = name
         self.navigationController?.pushViewController(vc, animated: true)
@@ -130,12 +172,13 @@ extension ConversationsViewController {
 //MARK: Delegate
 extension ConversationsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return conversations.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let model = conversations[indexPath.row]
         let cell = tableView.dequeueReusable(cellClass: ConversationTableViewCell.self, indexPath: indexPath)
-        cell.configsCell()
+        cell.configsCell(with: model)
         cell.accessoryType = .disclosureIndicator
         
         return cell
@@ -143,8 +186,14 @@ extension ConversationsViewController: UITableViewDelegate, UITableViewDataSourc
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        let model = conversations[indexPath.row]
         
-        let vc = ChatViewController(email: "asdfasdf")
+        let vc = ChatViewController(email: model.otherUserEmail, id: model.id)
+        vc.title = model.name
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
     }
 }

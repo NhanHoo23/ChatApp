@@ -18,6 +18,7 @@ class NewConversationViewController: UIViewController {
     var users = [[String: String]]()
     var hasFetched = false
     var results = [[String: String]]()
+    var completion: (([String: String]) -> Void)?
 }
 
 //MARK: Lifecycle
@@ -140,6 +141,11 @@ extension NewConversationViewController: UITableViewDataSource, UITableViewDeleg
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
+        let targetUserData = results[indexPath.row]
+        
+        dismiss(animated: true, completion: {[weak self] in
+            self?.completion?(targetUserData)
+        })
     }
 }
 

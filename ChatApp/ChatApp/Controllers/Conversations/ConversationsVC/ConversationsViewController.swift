@@ -16,6 +16,7 @@ class ConversationsViewController: UIViewController {
     let composeBt = UIButton()
     let tableView = UITableView()
     let noConversationsLb = UILabel()
+    
 }
 
 //MARK: Lifecycle
@@ -103,9 +104,26 @@ extension ConversationsViewController {
     }
     
     @objc func didTapComposeButton() {
-        let navVC = UINavigationController(rootViewController: NewConversationViewController())
+        let vc = NewConversationViewController()
+        let navVC = UINavigationController(rootViewController: vc)
         
         present(navVC, animated: true)
+        
+        vc.completion = {[weak self] result in
+            print("⭐️ result: \(result)")
+            self?.createNewConversation(result: result)
+        }
+    }
+    
+    func createNewConversation(result: [String: String]) {
+        guard let name = result["name"], let email = result["email"] else {
+            return
+        }
+
+        let vc = ChatViewController(email: email)
+        vc.isNewConversation = true
+        vc.title = name
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 
@@ -126,7 +144,7 @@ extension ConversationsViewController: UITableViewDelegate, UITableViewDataSourc
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let vc = ChatViewController()
+        let vc = ChatViewController(email: "asdfasdf")
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }

@@ -239,6 +239,23 @@ extension LoginViewController {
             }
             let user = result.user
             
+            let safeEmail = DatabaseManager.safeEmail(emailAddress: email)
+            DatabaseManager.shared.getDataFor(path: safeEmail, completion: {[weak self] result in
+                switch result {
+                case .success(let data):
+                    guard
+                        let userData = data as? [String: Any],
+                        let firstName = userData["firstName"] as? String,
+                        let lastName = userData["lastName"] as? String
+                    else {
+                        return
+                    }
+                    UserDefaults.standard.set("\(firstName) \(lastName)", forKey: "name")
+                case .failure(let error):
+                    print("⭐️ Failed to read data with error \(error)")
+                }
+            })
+            
             UserDefaults.standard.set(email, forKey: "email")
             
             print("⭐️ User Log In: \(user)")
@@ -284,6 +301,7 @@ extension LoginViewController {
             
             print("⭐️ email: \(email), firstName: \(firstName), lastName: \(lastName)")
             UserDefaults.standard.set(email, forKey: "email")
+            UserDefaults.standard.set("\(firstName) \(lastName)", forKey: "name")
             
             DatabaseManager.shared.userExists(with: email, completion: { exists in
                 if !exists {
@@ -375,6 +393,7 @@ extension LoginViewController {
                 }
                 
                 UserDefaults.standard.set(email, forKey: "email")
+                UserDefaults.standard.set("\(firstName) \(lastName)", forKey: "name")
                 
                 DatabaseManager.shared.userExists(with: email, completion: { exists in
                     if !exists {

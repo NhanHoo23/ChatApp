@@ -127,8 +127,7 @@ extension ChatViewController {
     func createMessageID() -> String? {
         //date, otherEmail, senderEmail, randomInt
         guard
-            let currentEmail = UserDefaults.standard.value(forKey: "email") as? String,
-            let otherUserEmail = self.otherUserEmail
+            let currentEmail = UserDefaults.standard.value(forKey: "email") as? String
         else {
             return nil
         }
@@ -194,18 +193,32 @@ extension ChatViewController: MessagesDataSource, MessagesLayoutDelegate, Messag
         
         print("⭐️ Sending text: \(text)")
         
+        let message = Message(sender: selfSender,
+                              messageId: messageID,
+                              sentDate: Date(),
+                              kind: .text(text))
         if isNewConversation {
             //create convo in database
-            let message = Message(sender: selfSender, messageId: messageID, sentDate: Date(), kind: .text(text))
-            DatabaseManager.shared.createNewConversation(with: otherUserEmail, name: self.title ?? "User", firstMessage: message, completion: { success in
+            DatabaseManager.shared.createNewConversation(with: otherUserEmail, name: self.title ?? "User", firstMessage: message, completion: {[weak self] success in
+                if success {
+                    print("⭐️ message sent")
+                    self?.isNewConversation = false
+                } else {
+                    print("⭐️ failed to send")
+                }
+            })
+        } else {
+            guard let conversationID = self.conversationID, let name = self.title else {
+                return
+            }
+            //append to existing conversation data
+            DatabaseManager.shared.sendMessage(to: conversationID, otherUserEmail: otherUserEmail, name: name, newMessage: message, completion: {[weak self] success in
                 if success {
                     print("⭐️ message sent")
                 } else {
                     print("⭐️ failed to send")
                 }
             })
-        } else {
-            //append to existing conversation data
         }
     }
 }

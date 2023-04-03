@@ -62,8 +62,8 @@
             filePath = "ChatApp/Controllers/Conversations/ChatVC/ChatViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "148"
-            endingLineNumber = "148"
+            startingLineNumber = "147"
+            endingLineNumber = "147"
             landmarkName = "listenForMessages(id:shouldScrollToBottom:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -78,8 +78,8 @@
             filePath = "ChatApp/Controllers/Conversations/ChatVC/ChatViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "162"
-            endingLineNumber = "162"
+            startingLineNumber = "161"
+            endingLineNumber = "161"
             landmarkName = "listenForMessages(id:shouldScrollToBottom:)"
             landmarkType = "7">
          </BreakpointContent>

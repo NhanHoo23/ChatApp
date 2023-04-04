@@ -6,11 +6,21 @@
 //
 
 import MTSDK
+import SDWebImage
 
 //MARK: Init and Variables
 class PhotoViewerViewController: UIViewController {
+    required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
+    init(with url: URL) {
+        super.init(nibName: nil, bundle: nil)
+        self.url = url
+    }
 
     //Variables
+    let imageView = UIImageView()
+    
+    var url: URL!
+    
 }
 
 //MARK: Lifecycle
@@ -31,7 +41,18 @@ extension PhotoViewerViewController {
 //MARK: SetupView
 extension PhotoViewerViewController {
     private func setupView() {
-        
+        imageView >>> view >>> {
+            $0.snp.makeConstraints {
+                $0.edges.equalToSuperview()
+            }
+            $0.contentMode = .scaleAspectFit
+            guard let url = self.url else {
+                return
+            }
+
+            $0.sd_setImage(with: url)
+        }
+
     }
 }
 

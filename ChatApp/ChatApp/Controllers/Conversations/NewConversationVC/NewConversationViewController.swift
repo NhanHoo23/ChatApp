@@ -17,8 +17,8 @@ class NewConversationViewController: UIViewController {
     
     var users = [[String: String]]()
     var hasFetched = false
-    var results = [[String: String]]()
-    var completion: (([String: String]) -> Void)?
+    var results = [SearchResult]()
+    var completion: ((SearchResult) -> Void)?
 }
 
 //MARK: Lifecycle
@@ -95,18 +95,34 @@ extension NewConversationViewController {
     }
     
     func filterUsers(with term: String) {
-        guard hasFetched else {
+        guard let currentUserEmail = UserDefaults.standard.value(forKey: "email") as? String, hasFetched else {
             return
         }
         
+        let safeEmail = DatabaseManager.safeEmail(emailAddress: currentUserEmail)
+        
         self.hideLoading()
         
-        let results: [[String: String]] = self.users.filter({
+        let results: [SearchResult] = self.users.filter({
+            guard let email = $0["email"] as? String, email != safeEmail else {
+                return false
+            }
+            
             guard let name = $0["name"]?.lowercased() else {
                 return false
             }
             
             return name.hasPrefix(term.lowercased())
+        }).compactMap({
+            guard
+                let email = $0["email"],
+                let name = $0["name"]?.lowercased()
+            else {
+                return nil
+            }
+      
+            
+            return SearchResult(name: name, email: email)
         })
         
         self.results = results
@@ -147,6 +163,10 @@ extension NewConversationViewController: UITableViewDataSource, UITableViewDeleg
             self?.completion?(targetUserData)
         })
     }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 90
+    }
 }
 
 
@@ -160,4 +180,9 @@ extension NewConversationViewController: UISearchBarDelegate {
         self.showLoading()
         self.searchUser(query: text)
     }
+}
+
+struct SearchResult {
+    let name: String
+    let email: String
 }

@@ -14,10 +14,90 @@
             filePath = "ChatApp/Controllers/Conversations/ChatVC/ChatViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "224"
-            endingLineNumber = "224"
+            startingLineNumber = "253"
+            endingLineNumber = "253"
             landmarkName = "listenForMessages(id:shouldScrollToBottom:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "035DFF73-056F-4325-AB27-EB1A22C9A347 - 729cd0ffc7a54fac"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Result&lt;Swift.Array&lt;ChatApp.Message&gt;, Swift.Error&gt;) -&gt; () in ChatApp.ChatViewController.listenForMessages(id: Swift.String, shouldScrollToBottom: Swift.Bool) -&gt; ()"
+                  moduleName = "ChatApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/NhanHoo2310/Documents/MyProjects/ChatApp/ChatAppSwift/ChatApp/ChatApp/Controllers/Conversations/ChatVC/ChatViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "251"
+                  endingLineNumber = "251"
+                  offsetFromSymbolStart = "1296">
+               </Location>
+               <Location
+                  uuid = "035DFF73-056F-4325-AB27-EB1A22C9A347 - 729cd0ffc7a54fac"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Result&lt;Swift.Array&lt;ChatApp.Message&gt;, Swift.Error&gt;) -&gt; () in ChatApp.ChatViewController.listenForMessages(id: Swift.String, shouldScrollToBottom: Swift.Bool) -&gt; ()"
+                  moduleName = "ChatApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/NhanHoo2310/Documents/MyProjects/ChatApp/ChatAppSwift/ChatApp/ChatApp/Controllers/Conversations/ChatVC/ChatViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "251"
+                  endingLineNumber = "251"
+                  offsetFromSymbolStart = "1240">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A80007EE-A8C5-4130-A525-30F27AB3410B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ChatApp/Controllers/Conversations/ChatVC/ChatViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "378"
+            endingLineNumber = "378"
+            landmarkName = "imagePickerController(_:didFinishPickingMediaWithInfo:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "A80007EE-A8C5-4130-A525-30F27AB3410B - 34958c7eca22bc44"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ChatApp.ChatViewController.imagePickerController(_: __C.UIImagePickerController, didFinishPickingMediaWithInfo: Swift.Dictionary&lt;__C.UIImagePickerControllerInfoKey, Any&gt;) -&gt; ()"
+                  moduleName = "ChatApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/NhanHoo2310/Documents/MyProjects/ChatApp/ChatAppSwift/ChatApp/ChatApp/Controllers/Conversations/ChatVC/ChatViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "368"
+                  endingLineNumber = "368"
+                  offsetFromSymbolStart = "348">
+               </Location>
+               <Location
+                  uuid = "A80007EE-A8C5-4130-A525-30F27AB3410B - 34958c7eca22bc44"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ChatApp.ChatViewController.imagePickerController(_: __C.UIImagePickerController, didFinishPickingMediaWithInfo: Swift.Dictionary&lt;__C.UIImagePickerControllerInfoKey, Any&gt;) -&gt; ()"
+                  moduleName = "ChatApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/NhanHoo2310/Documents/MyProjects/ChatApp/ChatAppSwift/ChatApp/ChatApp/Controllers/Conversations/ChatVC/ChatViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "368"
+                  endingLineNumber = "368"
+                  offsetFromSymbolStart = "396">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

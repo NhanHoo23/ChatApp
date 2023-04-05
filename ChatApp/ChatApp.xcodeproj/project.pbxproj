@@ -609,6 +609,7 @@
 				INFOPLIST_FILE = ChatApp/SupportingFiles/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ChatAppSwift;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow access to take a profile picture";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Please allow access to send audio and video messages";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Please allow access to select photo for your profile";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -641,6 +642,7 @@
 				INFOPLIST_FILE = ChatApp/SupportingFiles/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ChatAppSwift;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow access to take a profile picture";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Please allow access to send audio and video messages";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Please allow access to select photo for your profile";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;

@@ -29,6 +29,8 @@ class LoginViewController: UIViewController {
     let registerBt = ButtonView()
     let fbLoginBt = SocialButtonView(type: .facebook)
     let ggLoginBt = SocialButtonView(type: .google)
+    
+    var loginObserver: NSObjectProtocol?
 }
 
 //MARK: Lifecycle
@@ -36,11 +38,25 @@ extension LoginViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        
+        loginObserver = NotificationCenter.default.addObserver(forName: .didLogInNotification, object: nil, queue: .main, using: {[weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.dismiss(animated: true)
+        })
     }
-    
+   
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        if let loginObserver = loginObserver {
+            NotificationCenter.default.removeObserver(loginObserver)
+        }
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {return .lightContent}

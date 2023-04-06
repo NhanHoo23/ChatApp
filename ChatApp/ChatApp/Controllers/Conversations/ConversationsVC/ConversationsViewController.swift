@@ -32,7 +32,7 @@ class ConversationsViewController: UIViewController {
     let noConversationsLb = UILabel()
     
     var conversations = [Conversation]()
-    
+    var loginObserver: NSObjectProtocol?
 }
 
 //MARK: Lifecycle
@@ -42,6 +42,13 @@ extension ConversationsViewController {
         setupView()
         fetchConversations()
         startListeningForConversations()
+        
+        loginObserver = NotificationCenter.default.addObserver(forName: .didLogInNotification, object: nil, queue: .main, using: {[weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.startListeningForConversations()
+        })
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -124,6 +131,11 @@ extension ConversationsViewController {
         guard let email = UserDefaults.standard.value(forKey: "email") as? String else {
             return
         }
+        
+        if let loginObserver = loginObserver {
+            NotificationCenter.default.removeObserver(loginObserver)
+        }
+        
         print("⭐️ Starting conversation fetch: \(email)")
         let safeEmail = DatabaseManager.safeEmail(emailAddress: email)
         DatabaseManager.shared.getAllConversations(for: safeEmail, completion: {[weak self] result in
@@ -194,5 +206,27 @@ extension ConversationsViewController: UITableViewDelegate, UITableViewDataSourc
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
+    }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let conversationID = conversations[indexPath.row].id
+            tableView.beginUpdates()
+            
+            DatabaseManager.shared.deleteConversation(conversationID: conversationID, completion: {[weak self] success in
+                if success {
+                    self?.conversations.remove(at: indexPath.row)
+                    tableView.deleteRows(at: [indexPath], with: .left)
+                } else {
+                    
+                }
+            })
+           
+            tableView.endUpdates()
+        }
     }
 }

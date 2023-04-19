@@ -64,6 +64,21 @@
                   endingLineNumber = "253"
                   offsetFromSymbolStart = "1240">
                </Location>
+               <Location
+                  uuid = "035DFF73-056F-4325-AB27-EB1A22C9A347 - 729cd0ffc7a54fee"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Result&lt;Swift.Array&lt;ChatApp.Message&gt;, Swift.Error&gt;) -&gt; () in ChatApp.ChatViewController.listenForMessages(id: Swift.String, shouldScrollToBottom: Swift.Bool) -&gt; ()"
+                  moduleName = "ChatApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/NhanHoo2310/Documents/MyProjects/ChatApp/ChatAppSwift/ChatApp/ChatApp/Controllers/Conversations/ChatVC/ChatViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "253"
+                  endingLineNumber = "253"
+                  offsetFromSymbolStart = "1296">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -113,22 +128,6 @@
                   offsetFromSymbolStart = "396">
                </Location>
             </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "88C0F840-3A59-457D-B1E4-8FDEE87878F5"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ChatApp/Controllers/Login/LoginViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "323"
-            endingLineNumber = "323"
-            landmarkName = "signInWithGoogle()"
-            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

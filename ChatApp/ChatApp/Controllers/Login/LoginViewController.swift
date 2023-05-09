@@ -49,7 +49,7 @@ extension LoginViewController {
    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
+        navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -232,14 +232,14 @@ extension LoginViewController {
         passwordField.resetText()
         
         let vc = RegisterViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     func logIn() {
         let email = emailField.getText()
         let password = passwordField.getText()
 
-        self.showLoading(color: .gray, style: .medium, containerColor: .lightText, containerRadius: 5)
+        showLoading(color: .gray, style: .medium, containerColor: .lightText, containerRadius: 5)
         //firebase login
         FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password, completion: {[weak self] authResult, error in
             guard let strongSelf = self else {
@@ -256,7 +256,7 @@ extension LoginViewController {
             let user = result.user
             
             let safeEmail = DatabaseManager.safeEmail(emailAddress: email)
-            DatabaseManager.shared.getDataFor(path: safeEmail, completion: {[weak self] result in
+            DatabaseManager.shared.getDataFor(path: safeEmail, completion: { result in
                 switch result {
                 case .success(let data):
                     guard
@@ -280,7 +280,7 @@ extension LoginViewController {
 
         emailField.hideKeyboard()
         passwordField.hideKeyboard()
-        self.loginBt.updateButtonState(false)
+        loginBt.updateButtonState(false)
     }
     
     func signInWithGoogle() {
@@ -291,7 +291,7 @@ extension LoginViewController {
         GIDSignIn.sharedInstance.configuration = config
 
         // Start the sign in flow!
-        GIDSignIn.sharedInstance.signIn(withPresenting: self) {result, error in
+        GIDSignIn.sharedInstance.signIn(withPresenting: self) {[unowned self] result, error in
             guard error == nil else {
                 if let error = error {
                     print("⭐️ Failed to sign in with google: \(error)")
@@ -357,7 +357,7 @@ extension LoginViewController {
             let credential = GoogleAuthProvider.credential(withIDToken: idToken,
                                                            accessToken: user.accessToken.tokenString)
             
-            self.showLoading(color: .gray, style: .medium, containerColor: .lightText, containerRadius: 5)
+            showLoading(color: .gray, style: .medium, containerColor: .lightText, containerRadius: 5)
             Firebase.Auth.auth().signIn(with: credential, completion: {[weak self] authResult, error in
                 guard let strongSelf = self else {return}
                 DispatchQueue.main.async {
@@ -378,7 +378,7 @@ extension LoginViewController {
     
     func signInWithFacebook() {
         let fbLoginManager = LoginManager()
-        fbLoginManager.logIn(permissions: ["public_profile", "email"], from: self, handler: {result, error in
+        fbLoginManager.logIn(permissions: ["public_profile", "email"], from: self, handler: {[unowned self] result, error in
             guard let token = result?.token?.tokenString else {
                 print("⭐️ User failed login to fb")
                 return
@@ -478,9 +478,9 @@ extension LoginViewController {
         let password = passwordField.getText()
 
         if !email.isEmpty && !password.isEmpty {
-            self.loginBt.updateButtonState(true)
+            loginBt.updateButtonState(true)
         } else {
-            self.loginBt.updateButtonState(false)
+            loginBt.updateButtonState(false)
         }
     }
 }
@@ -493,7 +493,7 @@ extension LoginViewController: UITextFieldDelegate {
             if textField == emailField.textField {
                 passwordField.showKeyboard()
             } else {
-                self.logIn()
+                logIn()
             }
         } else {
             alertUserLoginError(with: "The parameter email is required")

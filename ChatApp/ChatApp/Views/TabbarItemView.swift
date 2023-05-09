@@ -11,7 +11,7 @@ class TabbarItemView: UIView {
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented")}
     init(tabName: String, iconName: String, selectedIconName: String? = nil, iconColor: UIColor = .white, iconSelectedColor: UIColor = .red) {
         super.init(frame: .zero)
-        self.setupView()
+        setupView()
         
         self.tabName = tabName
         self.iconName = iconName
@@ -69,8 +69,8 @@ extension TabbarItemView {
             $0.snp.makeConstraints {
                 $0.edges.equalToSuperview()
             }
-            $0.handle {
-                if let action = self.action {
+            $0.handle { [weak self] in
+                if let action = self?.action {
                     action()
                 }
             }
@@ -83,9 +83,9 @@ extension TabbarItemView {
 //MARK: Functions
 extension TabbarItemView {
     func updateState() {
-        let iconColor = self.isSelected ? self.iconSelectedColor : self.iconColor
-        self.iconView.tintColor = iconColor
-        self.tabNameLb.text = self.tabName
-        self.tabNameLb.textColor = iconColor
+        let iconColor = isSelected ? iconSelectedColor : iconColor
+        iconView.tintColor = iconColor
+        tabNameLb.text = tabName
+        tabNameLb.textColor = iconColor
     }
 }

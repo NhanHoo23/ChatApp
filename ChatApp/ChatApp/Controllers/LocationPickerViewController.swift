@@ -15,7 +15,7 @@ class LocationPickerViewController: UIViewController {
     init(coordinates: CLLocationCoordinate2D?) {
         super.init(nibName: nil, bundle: nil)
         self.coordinates = coordinates
-        self.isPickable = false
+        self.isPickable = coordinates == nil
     }
 
     //Variables
@@ -25,7 +25,7 @@ class LocationPickerViewController: UIViewController {
     }()
     private let sendButton = UIButton()
     
-    private var isPickable: Bool = true
+    var isPickable: Bool = true
     private var coordinates: CLLocationCoordinate2D?
     public var completion: ((CLLocationCoordinate2D) -> Void)?
 }
@@ -40,11 +40,6 @@ extension LocationPickerViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: false)
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-//        map = view.bounds
     }
 
 }

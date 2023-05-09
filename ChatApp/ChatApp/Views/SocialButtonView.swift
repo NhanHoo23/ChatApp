@@ -16,7 +16,7 @@ class SocialButtonView: UIView {
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented")}
     init(type: SocialType) {
         super.init(frame: .zero)
-        self.setupView()
+        setupView()
         
         if type == .facebook {
             updateUI(type: .facebook)
@@ -35,11 +35,11 @@ class SocialButtonView: UIView {
 //MARK: SetupView
 extension SocialButtonView {
     private func setupView() {
-        self.isUserInteractionEnabled = true
+        isUserInteractionEnabled = true
         
-        self.titleLb.text = "Continue with Facebook"
-        self.titleLb.font = UIFont(name: FNames.regular, size: 16)
-        self.titleLb.sizeToFit()
+        titleLb.text = "Continue with Facebook"
+        titleLb.font = UIFont(name: FNames.regular, size: 16)
+        titleLb.sizeToFit()
         let titleLbIntrinsicContentSize = titleLb.intrinsicContentSize.width
         let widthForContentView = 35 + Spacing.medium + titleLbIntrinsicContentSize
         containerView >>> self >>> {
@@ -75,13 +75,13 @@ extension SocialButtonView {
 extension SocialButtonView {
     func updateUI(type: SocialType) {
         if type == .facebook {
-            self.backgroundColor = .link
-            self.layer.borderColor = UIColor.clear.cgColor
-            self.layer.borderWidth = 1
+            backgroundColor = .link
+            layer.borderColor = UIColor.clear.cgColor
+            layer.borderWidth = 1
             iconView.image = UIImage(named: "icon_facebook")
-            self.titleLb.textColor = .white
-            self.titleLb.text = "Continue with Facebook"
-            self.titleLb.sizeToFit()
+            titleLb.textColor = .white
+            titleLb.text = "Continue with Facebook"
+            titleLb.sizeToFit()
             let titleLbIntrinsicContentSize = titleLb.intrinsicContentSize.width
             let widthForContentView = 35 + Spacing.medium + titleLbIntrinsicContentSize
             containerView.snp.remakeConstraints {
@@ -90,13 +90,13 @@ extension SocialButtonView {
                 $0.width.equalTo(widthForContentView)
             }
         } else {
-            self.backgroundColor = .white
-            self.layer.borderColor = UIColor.link.cgColor
-            self.layer.borderWidth = 1
+            backgroundColor = .white
+            layer.borderColor = UIColor.link.cgColor
+            layer.borderWidth = 1
             iconView.image = UIImage(named: "icon_google")
-            self.titleLb.textColor = .link
-            self.titleLb.text = "Continue with Google"
-            self.titleLb.sizeToFit()
+            titleLb.textColor = .link
+            titleLb.text = "Continue with Google"
+            titleLb.sizeToFit()
             let titleLbIntrinsicContentSize = titleLb.intrinsicContentSize.width
             let widthForContentView = 35 + Spacing.medium + titleLbIntrinsicContentSize
             containerView.snp.remakeConstraints {

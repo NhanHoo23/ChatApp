@@ -41,9 +41,9 @@ extension TextFieldView {
 extension TextFieldView {
     func configTextField(backgroundColor: UIColor = Colors.textFieldColor, placeholder: String, placeholderTextColor: UIColor = Colors.placeHolderColor, returnKeyType: UIReturnKeyType = .default, isSecurity: Bool = false) {
         self.backgroundColor = backgroundColor
-        self.textField.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedString.Key.foregroundColor: placeholderTextColor, NSAttributedString.Key.font: UIFont(name: FNames.bold, size: 16)!])
-        self.textField.returnKeyType = returnKeyType
-        self.textField.isSecureTextEntry = isSecurity
+        textField.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedString.Key.foregroundColor: placeholderTextColor, NSAttributedString.Key.font: UIFont(name: FNames.bold, size: 16)!])
+        textField.returnKeyType = returnKeyType
+        textField.isSecureTextEntry = isSecurity
     }
     
     func getText() -> String {
@@ -54,18 +54,18 @@ extension TextFieldView {
     }
     
     func resetText() {
-        self.textField.text = ""
+        textField.text = ""
     }
     
     func addTarget(_ target: Any?, action: Selector, type: UIControl.Event) {
-        self.textField.addTarget(target, action: action, for: type)
+        textField.addTarget(target, action: action, for: type)
     }
     
     func hideKeyboard() {
-        self.textField.resignFirstResponder()
+        textField.resignFirstResponder()
     }
     
     func showKeyboard() {
-        self.textField.becomeFirstResponder()
+        textField.becomeFirstResponder()
     }
 }

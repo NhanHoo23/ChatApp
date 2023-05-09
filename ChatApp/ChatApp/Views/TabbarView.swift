@@ -53,8 +53,8 @@ extension TabbarView {
 //MARK: Functions
 extension TabbarView {
     func addTab(tab: TabbarItemView) {
-        tab.tag = self.stackView.arrangedSubviews.count
-        tab.isSelected = tab.tag == self.selectedIndex
+        tab.tag = stackView.arrangedSubviews.count
+        tab.isSelected = tab.tag == selectedIndex
         
         tab.action = {
             if self.selectedIndex == tab.tag {return}

@@ -59,7 +59,7 @@ extension LoginViewController {
         }
     }
 
-    override var preferredStatusBarStyle: UIStatusBarStyle {return .lightContent}
+//    override var preferredStatusBarStyle: UIStatusBarStyle {return .lightContent}
 }
 
 //MARK: SetupView

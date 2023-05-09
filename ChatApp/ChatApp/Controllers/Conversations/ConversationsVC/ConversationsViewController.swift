@@ -40,7 +40,6 @@ extension ConversationsViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        fetchConversations()
         startListeningForConversations()
         
         loginObserver = NotificationCenter.default.addObserver(forName: .didLogInNotification, object: nil, queue: .main, using: {[weak self] _ in
@@ -56,7 +55,6 @@ extension ConversationsViewController {
         self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
 
-    override var preferredStatusBarStyle: UIStatusBarStyle {return .lightContent}
 }
 
 //MARK: SetupView
@@ -113,7 +111,7 @@ extension ConversationsViewController {
                 $0.center.equalToSuperview()
             }
             $0.font = UIFont(name: FNames.medium, size: 22)
-            $0.text = "No Conversations"
+            $0.text = "No Conversations!"
             $0.textColor = .gray
             $0.isHidden = true
         }
@@ -123,10 +121,6 @@ extension ConversationsViewController {
 
 //MARK: Functions
 extension ConversationsViewController {
-    func fetchConversations() {
-        self.tableView.isHidden = false
-    }
-    
     func startListeningForConversations() {
         guard let email = UserDefaults.standard.value(forKey: "email") as? String else {
             return
@@ -143,15 +137,20 @@ extension ConversationsViewController {
             case .success(let conversations):
                 print("⭐️ successfully got conversation models")
                 guard !conversations.isEmpty else {
+                    self?.tableView.isHidden = true
+                    self?.noConversationsLb.isHidden = false
                     return
                 }
-                
+                self?.noConversationsLb.isHidden = true
+                self?.tableView.isHidden = false
                 self?.conversations = conversations
                 
                 DispatchQueue.main.async {
                     self?.tableView.reloadData()
                 }
             case .failure(let error):
+                self?.tableView.isHidden = true
+                self?.noConversationsLb.isHidden = false
                 print("⭐️ failed to get convo: \(error)")
             }
         })

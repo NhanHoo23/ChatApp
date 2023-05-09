@@ -8,6 +8,7 @@
 import MTSDK
 import FirebaseDatabase
 import MessageKit
+import CoreLocation
 
 final class DatabaseManager {
     static let shared = DatabaseManager()
@@ -357,7 +358,7 @@ extension DatabaseManager {
                     let dateString = dictionary["date"] as? String,
                     let date = ChatViewController.dateFormatter.date(from: dateString)
                 else {
-                    print("⭐️ error to get all message \(dictionary["date"])")
+                    print("⭐️ error to get all message")
                     return nil
                 }
                 
@@ -390,6 +391,21 @@ extension DatabaseManager {
                                       placeholderImage: placeholder,
                                       size: CGSize(width: 300, height: 300))
                     kind = .video(media)
+                } else if type == "location" {
+                    //location
+                    let locationComponents = content.components(separatedBy: ", ")
+                    guard
+                        let longtitude = Double(locationComponents[0]),
+                        let latitude = Double(locationComponents[1])
+                    else {
+                        return nil
+                    }
+                    
+                    print("⭐️ rendering location: long-\(longtitude), latitude-\(latitude)")
+                                        
+                    let location = Location(location: CLLocation(latitude: latitude, longitude: longtitude),
+                                            size: CGSize(width: 300, height: 300))
+                    kind = .location(location)
                 } else {
                     kind = .text(content)
                 }
@@ -458,7 +474,9 @@ extension DatabaseManager {
                     message = targetUrlString
                 }
                 break
-            case .location(_):
+            case .location(let locationData):
+                let location = locationData.location
+                message = "\(location.coordinate.longitude), \(location.coordinate.latitude)"
                 break
             case .emoji(_):
                 break

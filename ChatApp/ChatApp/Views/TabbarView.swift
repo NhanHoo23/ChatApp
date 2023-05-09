@@ -29,6 +29,15 @@ class TabbarView: UIView {
 //MARK: SetupView
 extension TabbarView {
     private func setupView() {
+        let blurEffect = UIBlurEffect(style: .systemMaterial)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView >>> self >>> {
+            $0.snp.makeConstraints {
+                $0.edges.equalToSuperview()
+            }
+        }
+
+        
         stackView >>> self >>> {
             $0.snp.makeConstraints {
                 $0.edges.equalToSuperview()

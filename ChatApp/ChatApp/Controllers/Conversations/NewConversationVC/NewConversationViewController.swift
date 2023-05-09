@@ -33,7 +33,7 @@ extension NewConversationViewController {
         self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
 
-    override var preferredStatusBarStyle: UIStatusBarStyle {return .lightContent}
+//    override var preferredStatusBarStyle: UIStatusBarStyle {return .lightContent}
 }
 
 //MARK: SetupView

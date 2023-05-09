@@ -35,5 +35,18 @@ extension ProfileTableViewCell {
             $0.backgroundColor = .clear
         }
     }
+    
+    func setup(with viewModel: ProfileViewModel) {
+        self.textLabel?.text = viewModel.title
+        switch viewModel.viewModelType {
+        case .info:
+            self.textLabel?.textColor = .label
+            self.textLabel?.textAlignment = .left
+            self.selectionStyle = .none
+        case .logOut:
+            self.textLabel?.textColor = .red
+            self.textLabel?.textAlignment = .center
+        }
+    }
 
 }

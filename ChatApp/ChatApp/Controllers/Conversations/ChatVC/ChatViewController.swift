@@ -11,6 +11,7 @@ import InputBarAccessoryView
 import SDWebImage
 import AVFoundation
 import AVKit
+import CoreLocation
 
 struct Message: MessageType {
     var sender: MessageKit.SenderType
@@ -59,6 +60,11 @@ struct Media: MediaItem {
     var size: CGSize
 }
 
+struct Location: LocationItem {
+    var location: CLLocation
+    var size: CGSize
+}
+
 //MARK: Init and Variables
 class ChatViewController: MessagesViewController {
     
@@ -71,6 +77,8 @@ class ChatViewController: MessagesViewController {
     }
     
     //Variables
+    var senderPhotoURL: URL?
+    var otherUserPhotoURL: URL?
     var messages = [Message]()
     var selfSender: Sender? {
         guard let email = UserDefaults.standard.value(forKey: "email") as? String else {
@@ -89,9 +97,8 @@ class ChatViewController: MessagesViewController {
     var conversationID: String?
     static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .long
-        formatter.locale = .current
+        formatter.dateFormat = "d MMM y 'at' h:mm:ss a z"
+        formatter.locale = Locale(identifier: "en_US_POSIX")
         return formatter
     }()
 }
@@ -116,7 +123,7 @@ extension ChatViewController {
         }
     }
 
-    override var preferredStatusBarStyle: UIStatusBarStyle {return .lightContent}
+//    override var preferredStatusBarStyle: UIStatusBarStyle {return .lightContent}
 }
 
 //MARK: SetupView
@@ -160,9 +167,54 @@ extension ChatViewController {
         actionSheet.addAction(UIAlertAction(title: "Audio", style: .default, handler: {[weak self] _ in
             
         }))
+        actionSheet.addAction(UIAlertAction(title: "Location", style: .default, handler: {[weak self] _ in
+            self?.presentLocationPicker()
+        }))
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
         present(actionSheet, animated: true)
+    }
+    
+    private func presentLocationPicker() {
+        let vc = LocationPickerViewController(coordinates: nil)
+        vc.title = "Pick Location"
+        vc.completion = {[weak self] selectedCoordinates in
+            
+            guard
+                let strongSelf = self,
+                let messageID = strongSelf.createMessageID(),
+                let conversationID = strongSelf.conversationID,
+                let name = strongSelf.title,
+                let selfSender = strongSelf.selfSender
+            else {
+                return
+            }
+            
+            let longitude: Double = selectedCoordinates.longitude
+            let latitude: Double = selectedCoordinates.latitude
+            
+            print("⭐️ long = \(longitude) | lat = \(latitude)")
+            
+            let location = Location(location: CLLocation(latitude: latitude, longitude: longitude),
+                                 size: .zero)
+            let message = Message(sender: selfSender,
+                                  messageId: messageID,
+                                  sentDate: Date(),
+                                  kind: .location(location))
+            
+            DatabaseManager.shared.sendMessage(to: conversationID,
+                                               otherUserEmail: strongSelf.otherUserEmail,
+                                               name: name,
+                                               newMessage: message,
+                                               completion: {success in
+                if success {
+                    print("⭐️ message location sent")
+                } else {
+                    print("⭐️ failed to send message location")
+                }
+            })
+        }
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     private func presentPhotoInputActionsheet() {
@@ -326,6 +378,26 @@ extension ChatViewController: MessagesDataSource, MessagesLayoutDelegate, Messag
         }
     }
     
+    func didTapMessage(in cell: MessageCollectionViewCell) {
+        guard
+            let indexPath = messagesCollectionView.indexPath(for: cell)
+        else {
+            return
+        }
+
+        let message = messages[indexPath.section]
+        switch message.kind {
+        case .location(let locationData):
+            let coordinates = locationData.location.coordinate
+            let vc = LocationPickerViewController(coordinates: coordinates)
+            vc.title = "Location"
+            self.navigationController?.pushViewController(vc, animated: true)
+       
+        default:
+            break
+        }
+    }
+    
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
         guard
             !text.replacingOccurrences(of: " ", with: "").isEmpty,
@@ -347,6 +419,10 @@ extension ChatViewController: MessagesDataSource, MessagesLayoutDelegate, Messag
                 if success {
                     print("⭐️ message sent")
                     self?.isNewConversation = false
+                    let newConversationID = "conversation_\(message.messageId)"
+                    self?.conversationID = newConversationID
+                    self?.listenForMessages(id: newConversationID, shouldScrollToBottom: true)
+                    self?.messageInputBar.inputTextView.text = nil
                 } else {
                     print("⭐️ failed to send")
                 }
@@ -358,11 +434,68 @@ extension ChatViewController: MessagesDataSource, MessagesLayoutDelegate, Messag
             //append to existing conversation data
             DatabaseManager.shared.sendMessage(to: conversationID, otherUserEmail: otherUserEmail, name: name, newMessage: message, completion: {[weak self] success in
                 if success {
+                    self?.messageInputBar.inputTextView.text = nil
                     print("⭐️ message sent")
                 } else {
                     print("⭐️ failed to send")
                 }
             })
+        }
+    }
+    
+    func backgroundColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
+        let sender = message.sender
+        if sender.senderId == selfSender?.senderId {
+            //our message that we've sent
+            return .link
+        }
+        
+        return .secondarySystemBackground
+    }
+    
+    func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
+        let sender = message.sender
+        
+        if sender.senderId == selfSender?.senderId {
+            if let currentUserImage = self.senderPhotoURL {
+                avatarView.sd_setImage(with: currentUserImage)
+            } else {
+                guard let email = UserDefaults.standard.value(forKey: "email") as? String else {return}
+                let safeEmail = DatabaseManager.safeEmail(emailAddress: email)
+                let path = "images/\(safeEmail)_profile_picture.png"
+                
+                StorageManager.shared.downloadURL(for: path, completion: {result in
+                    switch result {
+                    case .success(let url):
+                        DispatchQueue.main.async {
+                            avatarView.sd_setImage(with: url)
+                        }
+                    case .failure(let error):
+                        print("⭐️ \(error)")
+                    }
+                })
+            }
+        } else {
+            if let otherUserPhotoURL = self.otherUserPhotoURL {
+                avatarView.sd_setImage(with: otherUserPhotoURL)
+            } else {
+                guard let email = self.otherUserEmail else {return}
+                
+                let safeEmail = DatabaseManager.safeEmail(emailAddress: email)
+                let path = "images/\(safeEmail)_profile_picture.png"
+                
+                StorageManager.shared.downloadURL(for: path, completion: {[weak self] result in
+                    switch result {
+                    case .success(let url):
+                        self?.otherUserPhotoURL = url
+                        DispatchQueue.main.async {
+                            avatarView.sd_setImage(with: url)
+                        }
+                    case .failure(let error):
+                        print("⭐️ \(error)")
+                    }
+                })
+            }
         }
     }
 }

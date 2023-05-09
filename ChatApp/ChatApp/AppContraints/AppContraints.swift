@@ -27,9 +27,9 @@ struct FNames {
 }
 
 struct Colors {
-    static let mainBackgroundColor: UIColor = .white
-    static let textFieldColor: UIColor = .from("F5F5F5")
+    static let mainBackgroundColor: UIColor = .systemBackground
+    static let textFieldColor: UIColor = .secondarySystemBackground
     static let placeHolderColor: UIColor = .from("7A7A7A")
-    static let textColor: UIColor = .black
+    static let textColor: UIColor = .label
     static let tabbarColor: UIColor = .white
 }

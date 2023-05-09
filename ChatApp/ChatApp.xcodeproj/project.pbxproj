@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		720FEF4A29F6215F00ECC9BB /* StringExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 720FEF4929F6215F00ECC9BB /* StringExt.swift */; };
+		720FEF5029F65F5000ECC9BB /* LocationPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 720FEF4F29F65F5000ECC9BB /* LocationPickerViewController.swift */; };
 		721602B529CDB0AD0045BBC3 /* AppContraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721602B429CDB0AD0045BBC3 /* AppContraints.swift */; };
 		721602C429D040BB0045BBC3 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 721602BD29D040BB0045BBC3 /* Roboto-Medium.ttf */; };
 		721602C529D040BB0045BBC3 /* Roboto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 721602BE29D040BB0045BBC3 /* Roboto-Light.ttf */; };
@@ -46,6 +48,8 @@
 
 /* Begin PBXFileReference section */
 		52783E722F9F36DD229F6D41 /* Pods_ChatApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChatApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		720FEF4929F6215F00ECC9BB /* StringExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExt.swift; sourceTree = "<group>"; };
+		720FEF4F29F65F5000ECC9BB /* LocationPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPickerViewController.swift; sourceTree = "<group>"; };
 		721602B429CDB0AD0045BBC3 /* AppContraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppContraints.swift; sourceTree = "<group>"; };
 		721602BD29D040BB0045BBC3 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
 		721602BE29D040BB0045BBC3 /* Roboto-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Light.ttf"; sourceTree = "<group>"; };
@@ -205,6 +209,7 @@
 				727D7CEE29D28B57007DB0B1 /* Profile */,
 				72F9557D29CD932200A4E8CE /* PhotoViewerViewController.swift */,
 				72F9557F29CD933800A4E8CE /* VideoPlayerViewController.swift */,
+				720FEF4F29F65F5000ECC9BB /* LocationPickerViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -213,6 +218,7 @@
 			isa = PBXGroup;
 			children = (
 				72CCB50929DF16830021630F /* NotificationNameExt.swift */,
+				720FEF4929F6215F00ECC9BB /* StringExt.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -334,6 +340,7 @@
 				723EE76929CD873F00BEB75E /* Frameworks */,
 				723EE76A29CD873F00BEB75E /* Resources */,
 				F3893AAB86B35511272024EB /* [CP] Embed Pods Frameworks */,
+				72D25B132A08D587000645B1 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -398,6 +405,25 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		72D25B132A08D587000645B1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
+		};
 		AC1E523B48A6427383AE9C2C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -449,6 +475,7 @@
 				72F9557C29CD931400A4E8CE /* RegisterViewController.swift in Sources */,
 				72F9558229CD936400A4E8CE /* NewConversationViewController.swift in Sources */,
 				723EE77029CD873F00BEB75E /* AppDelegate.swift in Sources */,
+				720FEF5029F65F5000ECC9BB /* LocationPickerViewController.swift in Sources */,
 				727D7CFF29D34092007DB0B1 /* TextFieldView.swift in Sources */,
 				727D7D0529D42126007DB0B1 /* ButtonView.swift in Sources */,
 				72F9558029CD933800A4E8CE /* VideoPlayerViewController.swift in Sources */,
@@ -463,6 +490,7 @@
 				721602B529CDB0AD0045BBC3 /* AppContraints.swift in Sources */,
 				727D7CF329D2D4A6007DB0B1 /* SocialButtonView.swift in Sources */,
 				727D7D0129D413A1007DB0B1 /* UserTableViewCell.swift in Sources */,
+				720FEF4A29F6215F00ECC9BB /* StringExt.swift in Sources */,
 				7252B32D29D15CDF00591C85 /* DatabaseManager.swift in Sources */,
 				72F9558429CD937D00A4E8CE /* ProfileViewController.swift in Sources */,
 				72CCB50A29DF16830021630F /* NotificationNameExt.swift in Sources */,
@@ -608,6 +636,7 @@
 				CODE_SIGN_ENTITLEMENTS = ChatApp/ChatApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = A9QHV3NCBJ;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ChatApp/SupportingFiles/Info.plist;

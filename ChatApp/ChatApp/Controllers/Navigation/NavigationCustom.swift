@@ -19,7 +19,7 @@ class Navigation: UINavigationController {
 }
 
 extension Navigation {
-    override var preferredStatusBarStyle: UIStatusBarStyle {return .darkContent}
+//    override var preferredStatusBarStyle: UIStatusBarStyle {return .darkContent}
     override var childForStatusBarStyle: UIViewController? {return topViewController }
     
     override func viewDidLoad() {

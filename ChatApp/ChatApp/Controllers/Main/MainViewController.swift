@@ -41,7 +41,7 @@ extension MainViewController {
     }
 
 
-    override var preferredStatusBarStyle: UIStatusBarStyle {return .darkContent}
+//    override var preferredStatusBarStyle: UIStatusBarStyle {return .darkContent}
 }
 
 //MARK: SetupView
@@ -53,17 +53,24 @@ extension MainViewController {
                 $0.bottom.equalTo(botSafe)
                 $0.height.equalTo(90 - botSafeHeight)
             }
-            $0.backgroundColor = Colors.tabbarColor
             $0.delegate = self
         }
         
-        let bottomView = UIView()
-        bottomView >>> view >>> {
+//        let bottomView = UIView()
+//        bottomView >>> view >>> {
+//            $0.snp.makeConstraints {
+//                $0.bottom.leading.trailing.equalToSuperview()
+//                $0.top.equalTo(tabbarView.snp.bottom)
+//            }
+//            $0.backgroundColor = Colors.tabbarColor
+//        }
+        let blurEffect = UIBlurEffect(style: .systemMaterial)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView >>> view >>> {
             $0.snp.makeConstraints {
                 $0.bottom.leading.trailing.equalToSuperview()
                 $0.top.equalTo(tabbarView.snp.bottom)
             }
-            $0.backgroundColor = Colors.tabbarColor
         }
         
         containerView >>> view >>> {

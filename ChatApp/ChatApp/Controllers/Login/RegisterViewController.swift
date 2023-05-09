@@ -39,7 +39,7 @@ extension RegisterViewController {
         self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
 
-    override var preferredStatusBarStyle: UIStatusBarStyle {return .lightContent}
+//    override var preferredStatusBarStyle: UIStatusBarStyle {return .lightContent}
 }
 
 //MARK: SetupView
@@ -220,6 +220,9 @@ extension RegisterViewController {
                     print("Error creating user")
                     return
                 }
+                
+                UserDefaults.standard.setValue(email, forKey: "email")
+                UserDefaults.standard.setValue("\(firstName) \(lastName)", forKey: "name")
                 
                 let chatUser = ChatAppUser(firstName: firstName,
                                            lastName: lastName,
